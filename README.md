@@ -1,4 +1,4 @@
-# 13th-StartPoint-was
+# 개발지상주의
 
 ## 기술 스택
 
