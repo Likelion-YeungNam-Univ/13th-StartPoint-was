@@ -69,4 +69,3 @@ git push origin feature/7-home-ui 	#feature/{이슈번호}-{기능요약}
 | Type : Chore | 유지보수 (설정, 환경, 패키지 등) |
 | For : API | 서버 API 작업 |
 | For : Entity/DB | 데이터베이스 작업 |
-| For : Html&css | 스타일링 (마크업 & CSS) |
