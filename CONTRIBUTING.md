@@ -33,6 +33,7 @@ git push origin feature/7-home-ui 	#feature/{이슈번호}-{기능요약}
 ```
 
 ### 5️⃣ 코드 확인 후 Merge  
+- 테스트 코드 꼭 돌리고 PR
 - GitHub로 이동 → Pull Request 생성
 - PR 작성 시:  
 	• base: develop  
