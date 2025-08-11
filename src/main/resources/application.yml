@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: CoCoNut-was
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/testdb
+    username: JHEEE116
+    password: "yt1357#1"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+
+#jwt:
+#  secret-key: ${SECRET_KEY}
