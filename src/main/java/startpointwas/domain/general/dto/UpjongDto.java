@@ -9,4 +9,8 @@ public class UpjongDto {
     private String upjong3cd;
     private String tpbiznm;
 
+    private String largeCategory;
+    private String mediumCategory;
+    private String smallCategory;
+
 }
