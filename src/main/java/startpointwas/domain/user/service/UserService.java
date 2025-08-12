@@ -19,12 +19,13 @@ public class UserService {
     private final UserRepository userRepository;
 
     /** 회원가입: 중복검사/암호화 없이 그대로 저장 */
+    // 기존: public void signUp(SignUpReq dto)
     @Transactional
-    public void signUp(SignUpReq dto) {
-
+    public User signUp(SignUpReq dto) {
         User user = dto.toEntity(dto.getPassword());
-        userRepository.save(user);
+        return userRepository.save(user); // 저장된 User 반환!
     }
+
 
     /** 유저 상세 조회 */
     @Transactional(readOnly = true)

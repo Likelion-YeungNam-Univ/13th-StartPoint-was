@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import startpointwas.domain.user.dto.LoginDto;
+import startpointwas.domain.user.dto.NameRoleRes;
 import startpointwas.domain.user.dto.SignUpReq;
 import startpointwas.domain.user.dto.UserInfoDto;
 import startpointwas.domain.user.entity.User;
@@ -23,29 +24,32 @@ public class UserController implements UserApi {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@RequestBody SignUpReq req) {
-        userService.signUp(req);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<NameRoleRes> signUp(@RequestBody SignUpReq req) {
+        User saved = userService.signUp(req);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(NameRoleRes.from(saved));
     }
+
 
 
     @PostMapping("/login")
-    public ResponseEntity<UserInfoDto> login(@RequestBody LoginDto req,
+    public ResponseEntity<NameRoleRes> login(@RequestBody LoginDto req,
                                              HttpServletRequest request) {
         User user = userService.login(req.getUserId(), req.getPassword());
+
         HttpSession session = request.getSession(true);
-        session.setAttribute("LOGIN_USER_ID", user.getId());
+        session.setAttribute(UserApi.SESSION_KEY, user.getId());
+        session.setMaxInactiveInterval(10 * 60 * 60); // 10시간
 
-        // 이 세션만 10시간 유지 (초 단위)
-        session.setMaxInactiveInterval(10 * 60 * 60);
-
-        return ResponseEntity.ok(UserInfoDto.fromEntity(user));
+        // name, role만 응답
+        return ResponseEntity.ok(NameRoleRes.from(user));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(HttpSession session, HttpServletResponse response) {
+    public ResponseEntity<String> logout(HttpSession session, HttpServletResponse response) {
         userService.logout(session, response);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("로그아웃에 성공하셨습니다.");
     }
 
     @GetMapping("/{id}")

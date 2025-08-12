@@ -47,10 +47,6 @@ public class SignUpReq {
     @Pattern(regexp = "^010-\\d{4}-\\d{4}$", message = "전화번호 형식은 010-xxxx-xxxx이어야 합니다.")
     private String phone;
 
-    /**
-     * DTO -> User 엔티티 변환
-     * @param encodedPassword 서비스 계층에서 BCrypt 등으로 해싱한 비밀번호
-     */
     public User toEntity(String encodedPassword) {
         return User.builder()
                 .name(this.name)
