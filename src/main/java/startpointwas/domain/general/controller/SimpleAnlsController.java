@@ -6,7 +6,7 @@ import startpointwas.domain.general.dto.SimpleAnlsResponse;
 import startpointwas.domain.general.service.SimpleAnlsService;
 
 @RestController
-@RequestMapping("/api/general")
+@RequestMapping("/api/general/simple-anls")
 public class SimpleAnlsController {
 
     private final SimpleAnlsService service;
