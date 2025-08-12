@@ -16,7 +16,7 @@ import startpointwas.domain.user.service.UserService;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-public class UserController {
+public class UserController implements UserApi {
 
     private static final String SESSION_KEY = "LOGIN_USER_ID";
     private final UserService userService;
