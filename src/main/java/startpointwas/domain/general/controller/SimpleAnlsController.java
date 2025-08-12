@@ -21,9 +21,6 @@ public class SimpleAnlsController {
             @RequestParam String upjongCd,
             @RequestParam String simpleLoc
     ) {
-        if (admiCd == null || upjongCd == null || simpleLoc == null) {
-            throw new IllegalArgumentException();
-        }
         return ResponseEntity.ok(service.fetchAvgAmtInfo(admiCd, upjongCd, simpleLoc));
     }
 }
