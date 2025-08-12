@@ -1,0 +1,75 @@
+package startpointwas.domain.user.controller;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import startpointwas.domain.user.dto.LoginDto;
+import startpointwas.domain.user.dto.SignUpReq;
+import startpointwas.domain.user.dto.UserInfoDto;
+import startpointwas.domain.user.entity.User;
+import startpointwas.domain.user.service.UserService;
+
+@RestController
+@RequestMapping("/api/users")
+@RequiredArgsConstructor
+public class UserController {
+
+    private static final String SESSION_KEY = "LOGIN_USER_ID";
+    private final UserService userService;
+
+
+    @PostMapping("/signup")
+    public ResponseEntity<Void> signUp(@RequestBody SignUpReq req) {
+        userService.signUp(req);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<UserInfoDto> login(@RequestBody LoginDto req,
+                                             HttpServletRequest request) {
+        User user = userService.login(req.getUserId(), req.getPassword());
+        HttpSession session = request.getSession(true);
+        session.setAttribute("LOGIN_USER_ID", user.getId());
+
+        // 이 세션만 10시간 유지 (초 단위)
+        session.setMaxInactiveInterval(10 * 60 * 60);
+
+        return ResponseEntity.ok(UserInfoDto.fromEntity(user));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpSession session, HttpServletResponse response) {
+        userService.logout(session, response);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserInfoDto> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUser(id));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(HttpSession session) {
+        Long userId = (Long) session.getAttribute(SESSION_KEY);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+        return ResponseEntity.ok(userService.getUserInfo(userId));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntime(RuntimeException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+}
