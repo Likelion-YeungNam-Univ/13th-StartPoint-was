@@ -1,4 +1,3 @@
-// src/main/java/startpointwas/domain/upjong/service/UpjongService.java
 package startpointwas.domain.general.service;
 
 import org.springframework.core.ParameterizedTypeReference;
