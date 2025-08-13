@@ -70,4 +70,11 @@ public class UserService {
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 
+    @Transactional(readOnly = true)
+    public UserInfoDto getUserInfo(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(RuntimeException::new);
+        return UserInfoDto.fromEntity(user);
+    }
+
 }
