@@ -1,4 +1,4 @@
-package startpointwas.domain.user;
+package startpointwas.domain.user.entity;
 
 
 import lombok.Getter;
