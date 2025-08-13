@@ -65,5 +65,16 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserInfo(userId));
     }
 
+    @PatchMapping("/me")
+    public ResponseEntity<Void> updateMyInfoPartial(HttpSession session,
+                                                    @RequestBody UserInfoDto dto) {
+        Long userId = (Long) session.getAttribute(SESSION_KEY);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        userService.updateUserPartial(userId, dto);
+        return ResponseEntity.noContent().build();
+    }
 
 }
