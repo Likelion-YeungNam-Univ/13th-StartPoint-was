@@ -59,6 +59,15 @@ public class UserService {
 
         userRepository.save(user);
     }
+    public void logout(HttpSession session, HttpServletResponse response) {
+        if (session != null) session.invalidate();
 
+        ResponseCookie cookie = ResponseCookie.from("JSESSIONID", "")
+                .path("/")
+                .httpOnly(true)
+                .maxAge(0)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+    }
 
 }
