@@ -1,6 +1,6 @@
 package startpointwas.domain.user.controller;
 
-=
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -33,4 +33,18 @@ public class UserController {
                 .body(NameRoleRes.from(saved));
     }
     
+    @PostMapping("/login")
+    public ResponseEntity<NameRoleRes> login(@Valid @RequestBody LoginDto req,
+                                             HttpServletRequest request) {
+        User user = userService.login(req.getUserId(), req.getPassword());
+
+        HttpSession session = request.getSession(true);
+        session.setAttribute(SESSION_KEY, user.getId());
+        session.setMaxInactiveInterval(10 * 60 * 60);
+
+        return ResponseEntity.ok(NameRoleRes.from(user));
+    }
+
+
+
 }
