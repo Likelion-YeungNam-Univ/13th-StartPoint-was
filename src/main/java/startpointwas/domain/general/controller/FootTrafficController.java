@@ -9,7 +9,7 @@ import startpointwas.domain.general.dto.FootTrafficDto;
 import startpointwas.domain.general.service.FootTrafficService;
 
 @RestController
-@RequestMapping("/api/general/foot-traffic")
+@RequestMapping("/api/analysis/general/foot-traffic")
 public class FootTrafficController {
 
     private final FootTrafficService service;
