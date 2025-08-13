@@ -23,7 +23,7 @@ public class UserService {
         User user = dto.toEntity(dto.getPassword());
         return userRepository.save(user);
     }
-    
+
     @Transactional(readOnly = true)
     public UserInfoDto getUser(Long id) {
         User user = userRepository.findById(id)
@@ -31,4 +31,13 @@ public class UserService {
         return UserInfoDto.fromEntity(user);
     }
 
+    @Transactional(readOnly = true)
+    public User login(String userId, String rawPassword) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(RuntimeException::new);
+        if (!rawPassword.equals(user.getPassword())) {
+            throw new RuntimeException();
+        }
+        return user;
+    }
 }
