@@ -23,6 +23,12 @@ public class UserService {
         User user = dto.toEntity(dto.getPassword());
         return userRepository.save(user);
     }
-
+    
+    @Transactional(readOnly = true)
+    public UserInfoDto getUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(RuntimeException::new);
+        return UserInfoDto.fromEntity(user);
+    }
 
 }
