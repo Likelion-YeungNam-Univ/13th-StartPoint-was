@@ -32,7 +32,7 @@ public class UserController {
                 .status(HttpStatus.CREATED)
                 .body(NameRoleRes.from(saved));
     }
-    
+
     @PostMapping("/login")
     public ResponseEntity<NameRoleRes> login(@Valid @RequestBody LoginDto req,
                                              HttpServletRequest request) {
@@ -45,6 +45,11 @@ public class UserController {
         return ResponseEntity.ok(NameRoleRes.from(user));
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session, HttpServletResponse response) {
+        userService.logout(session, response);
+        return ResponseEntity.ok("로그아웃에 성공하셨습니다.");
+    }
 
 
 }
