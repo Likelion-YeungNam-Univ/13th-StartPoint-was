@@ -50,10 +50,20 @@ public class UserController {
         userService.logout(session, response);
         return ResponseEntity.ok("로그아웃에 성공하셨습니다.");
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<UserInfoDto> getUser(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUser(id));
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(HttpSession session) {
+        Long userId = (Long) session.getAttribute(SESSION_KEY);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+        return ResponseEntity.ok(userService.getUserInfo(userId));
+    }
+
 
 }
