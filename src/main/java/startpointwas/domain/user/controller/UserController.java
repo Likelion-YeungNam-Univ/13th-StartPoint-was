@@ -50,6 +50,10 @@ public class UserController {
         userService.logout(session, response);
         return ResponseEntity.ok("로그아웃에 성공하셨습니다.");
     }
-
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<UserInfoDto> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUser(id));
+    }
 
 }
