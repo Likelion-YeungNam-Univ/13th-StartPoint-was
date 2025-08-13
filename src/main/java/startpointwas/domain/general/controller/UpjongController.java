@@ -15,7 +15,7 @@ public class UpjongController {
         this.upjongService = upjongService;
     }
 
-    @GetMapping("/api/upjong")
+    @GetMapping("/api/general/upjong")
     public List<UpjongDto> getUpjongList() {
         return upjongService.fetchUpjongList();
     }
