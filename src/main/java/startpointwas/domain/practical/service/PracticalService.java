@@ -7,6 +7,7 @@ import startpointwas.domain.general.dto.SimpleAnlsResponse;
 import startpointwas.domain.practical.DongCode;
 import startpointwas.domain.practical.client.GeneralClient;
 import startpointwas.domain.practical.dto.PracticalDongAnls;
+import startpointwas.domain.practical.repository.PracticalRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class PracticalService {
 
     private final GeneralClient generalClient;
+    private final PracticalRepository practicalRepository;
 
     private final String analyNoDefault = "1143243";
     private final String simpleLocPrefix = "경상북도+경산시";
@@ -37,12 +39,18 @@ public class PracticalService {
                         simple = generalClient.getSimpleAnls(admiCd, upjongCd, simpleLoc);
                     } catch (Exception ignored) {}
 
-                    return PracticalDongAnls.builder()
+                    PracticalDongAnls built =  PracticalDongAnls.builder()
                             .admiCd(d.getCode())
                             .upjongCd(upjongCd)
                             .footTrafficDto(foot)
                             .simpleAnlsDto(simple)
                             .build();
+
+                    try {
+                        practicalRepository.put(upjongCd, admiCd, built);
+                    } catch (Exception ignored) {}
+                    
+                    return built;
                 })
                 .toList();
     }
