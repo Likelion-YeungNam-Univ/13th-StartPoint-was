@@ -13,19 +13,19 @@ public class GeneralClient {
 
     public FootTrafficDto getFootTraffic(String analyNo, String admiCd, String upjongCd) {
         return rest.get()
-                .uri("http://localhost:8080/api/general/foot-traffic?analyNo={analyNo}&admiCd={admiCd}&upjongCd={upjongCd}",
+                .uri("http://localhost:8080/api/analysis/general/foot-traffic?analyNo={analyNo}&admiCd={admiCd}&upjongCd={upjongCd}",
                         analyNo, admiCd, upjongCd)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .body(new ParameterizedTypeReference<>() {});
+                .body(FootTrafficDto.class);
     }
 
     public SimpleAnlsResponse getSimpleAnls(String admiCd, String upjongCd, String simpleLoc) {
         return rest.get()
-                .uri("http://localhost:8080/api/general/simple-anls?admiCd={admiCd}&upjongCd={upjongCd}&simpleLoc={simpleLoc}",
+                .uri("http://localhost:8080/api/analysis/general/simple-anls?admiCd={admiCd}&upjongCd={upjongCd}&simpleLoc={simpleLoc}",
                         admiCd, upjongCd, simpleLoc)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .body(new ParameterizedTypeReference<>() {});
+                .body(SimpleAnlsResponse.class);
     }
 }
