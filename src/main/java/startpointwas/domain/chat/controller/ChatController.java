@@ -63,4 +63,32 @@ public class ChatController {
         }
         return res;
     }
+    @GetMapping(path = "/ask", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> getUserChatHistory(
+            @RequestParam("userId") String userId) {
+
+        List<ChatMessagePairEntity> records = contextSvc.getAllChatsByUser(userId);
+
+        List<Map<String, Object>> history = new ArrayList<>();
+        for (ChatMessagePairEntity p : records) {
+            history.add(Map.of(
+                    "question", p.getQuestion(),
+                    "answer", p.getAnswer()
+            ));
+        }
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("userId", userId);
+        result.put("count", records.size());
+        result.put("history", history);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/chat/{contextId}")
+    public ResponseEntity<Map<String, Object>> clear(@PathVariable String contextId) {
+        long deleted = contextSvc.clear(contextId);
+        return ResponseEntity.ok(Map.of("contextId", contextId, "deleted", deleted));
+    }
+
 }
