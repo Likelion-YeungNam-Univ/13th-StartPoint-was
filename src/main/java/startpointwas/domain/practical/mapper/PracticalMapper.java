@@ -18,14 +18,6 @@ public final class PracticalMapper {
                 .map(it -> it.getStoreCnt())
                 .findFirst().orElse(null);
 
-        List<PracticalDongAnlsSlim.AvgListItem> avgList = sim.getAvgList().stream()
-                .limit(3)
-                .map(a -> new PracticalDongAnlsSlim.AvgListItem(
-                        parseInt(a.getSaleAmt()),
-                        parseInt(a.getMaxAmt()),
-                        parseInt(a.getMinAmt()),
-                        a.getCrtrYm()))
-                .toList();
 
         return PracticalDongAnlsSlim.builder()
                 .admiCd(src.getAdmiCd())
@@ -50,8 +42,6 @@ public final class PracticalMapper {
 
                 .saleAmt(parseInt(sim.getSaleAmt()))
                 .saleCnt(parseInt(sim.getSaleCnt()))
-                .guAmt(parseInt(sim.getGuAmt()))
-                .siAmt(parseInt(sim.getSiAmt()))
 
                 .prevMonRate(sim.getPrevMonRate())
                 .prevYearRate(sim.getPrevYearRate())
@@ -59,7 +49,6 @@ public final class PracticalMapper {
                 .prevYearCntRate(sim.getPrevYearCntRate())
 
                 .storeCntAdminNow(storeCntAdminNow)
-                .avgList(avgList)
                 .build();
     }
 
