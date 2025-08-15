@@ -20,7 +20,7 @@ public class PracticalTools {
 
     @Tool(
             name = "fetch_practical_slim_by_dongs",
-            description = "업종코드(upjongCd)와 동코드(admiCds) 목록으로 각 동의 PracticalDongAnlsSlim을 반환한다."
+            description = "업종코드와 동코드 목록으로 각 동의 PracticalDongAnlsSlim을 반환한다."
     )
     public List<PracticalDongAnlsSlim> fetchSlims(
             @ToolParam(description = "업종 코드") String upjongCd,

@@ -1,5 +1,7 @@
 package startpointwas.domain.practical.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.util.Map;
 public class FeasibilityController {
 
     private final ChatClient chat;
+    private final ObjectMapper om = new ObjectMapper();
 
     @GetMapping("/feasibility")
     public Map<String, Object> feasibility(
@@ -35,16 +38,30 @@ public class FeasibilityController {
         """
                 .formatted(upjongCd, admiCd, upjongCd, admiCd);
 
-        var answer = chat.prompt()
+        String content = chat.prompt()
                 .system(system)
                 .user(user)
                 .call()
                 .content();
 
-        return Map.of(
-                "admiCd", admiCd,
-                "upjongCd", upjongCd,
-                "answer", answer
-        );
+        Integer score = extractScore(content);
+
+        return Map.of("feasibilityScore", score);
+    }
+
+
+    private Integer extractScore(String content) {
+        try {
+            JsonNode n = om.readTree(content);
+            if (n.has("feasibilityScore"))
+                return n.get("feasibilityScore").asInt();
+        } catch (Exception ignore) {}
+
+        try {
+            String digits = content.replaceAll("[^0-9]", "").trim();
+            if (!digits.isEmpty()) return Integer.parseInt(digits);
+        } catch (Exception ignore) {}
+
+        return 0;
     }
 }
