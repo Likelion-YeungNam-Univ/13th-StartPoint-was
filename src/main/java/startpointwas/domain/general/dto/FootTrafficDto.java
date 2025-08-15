@@ -13,7 +13,7 @@ public class FootTrafficDto {
     @Getter
     public static class Population {
         private int dayAvg;
-        private int secondHour;
+        private double secondHour;
         private double thur;
         private double sat;
         private double weekend;
