@@ -31,3 +31,18 @@ spring:
                 options:
                  model: gpt-3.5-turbo
                  temperature: 0.7
+logging:
+    level:
+        org.springframework.ai: DEBUG
+        org.springframework.ai.openai: INFO
+        org.springframework.ai.tool: DEBUG
+
+        org.springframework.web.client.RestClient: INFO
+
+        org.apache.hc.client5.http.wire: OFF
+        org.apache.hc.client5.http.headers: OFF
+        org.apache.hc.client5.http.impl.classic: WARN
+        org.springframework.web.reactive.function.client.ExchangeFunctions: DEBUG
+
+        reactor.netty.http.client: DEBUG
+        org.springframework.web.reactive.function.client: DEBUG
