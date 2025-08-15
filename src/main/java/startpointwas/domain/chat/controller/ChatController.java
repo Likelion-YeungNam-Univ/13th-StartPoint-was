@@ -85,10 +85,4 @@ public class ChatController {
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("/chat/{contextId}")
-    public ResponseEntity<Map<String, Object>> clear(@PathVariable String contextId) {
-        long deleted = contextSvc.clear(contextId);
-        return ResponseEntity.ok(Map.of("contextId", contextId, "deleted", deleted));
-    }
-
 }
