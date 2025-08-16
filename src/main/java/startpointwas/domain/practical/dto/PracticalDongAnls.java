@@ -1,14 +1,15 @@
 package startpointwas.domain.practical.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 import startpointwas.domain.general.dto.FootTrafficDto;
 import startpointwas.domain.general.dto.SimpleAnlsResponse;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PracticalDongAnls {
     private String admiCd;
     private String upjongCd;

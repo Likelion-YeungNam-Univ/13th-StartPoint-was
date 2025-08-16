@@ -3,8 +3,6 @@ package startpointwas.domain.practical.mapper;
 import startpointwas.domain.practical.dto.PracticalDongAnls;
 import startpointwas.domain.practical.dto.PracticalDongAnlsSlim;
 
-import java.util.List;
-
 public final class PracticalMapper {
 
     private PracticalMapper() {}
@@ -21,33 +19,11 @@ public final class PracticalMapper {
 
         return PracticalDongAnlsSlim.builder()
                 .admiCd(src.getAdmiCd())
-                .upjongCd(src.getUpjongCd())
                 .stdYm(pop.getStdYm())
-
                 .dayAvg(pop.getDayAvg())
-                .firstHour(pop.getFirstHour())
-                .secondHour(pop.getSecondHour())
-                .thirdHour(pop.getThirdHour())
-                .fourthHour(pop.getFourthHour())
-                .fifthHour(pop.getFifthHour())
-                .sixthHour(pop.getSixthHour())
-                .tues(pop.getTues())
-                .wed(pop.getWed())
-                .thur(pop.getThur())
-                .fri(pop.getFri())
-                .sat(pop.getSat())
-                .sun(pop.getSun())
-                .weekend(pop.getWeekend())
-                .day(pop.getDay())
-
                 .saleAmt(parseInt(sim.getSaleAmt()))
                 .saleCnt(parseInt(sim.getSaleCnt()))
-
-                .prevMonRate(sim.getPrevMonRate())
                 .prevYearRate(sim.getPrevYearRate())
-                .prevMonCntRate(sim.getPrevMonCntRate())
-                .prevYearCntRate(sim.getPrevYearCntRate())
-
                 .storeCntAdminNow(storeCntAdminNow)
                 .build();
     }
