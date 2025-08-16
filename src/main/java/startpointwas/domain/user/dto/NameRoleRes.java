@@ -17,7 +17,7 @@ public class NameRoleRes {
     public static NameRoleRes from(User user) {
         return NameRoleRes.builder()
                 .name(user.getName())
-                .role(user.getRole() != null ? user.getRole().name() : null)
+                .role(user.getRole().name())
                 .build();
     }
 }
