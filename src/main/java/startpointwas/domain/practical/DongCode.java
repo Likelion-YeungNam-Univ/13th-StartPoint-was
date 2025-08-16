@@ -25,4 +25,13 @@ public enum DongCode {
 
     private final String code;
     private final String name;
+
+    public static String getOrDefault(String code, String defaultValue) {
+        for (DongCode d : DongCode.values()) {
+            if (d.code.equals(code)) {
+                return d.name;
+            }
+        }
+        return defaultValue;
+    }
 }

@@ -54,4 +54,23 @@ public class PracticalService {
                 })
                 .toList();
     }
+
+    public PracticalDongAnls buildAndCacheOne(String upjongCd, String admiCd) {
+        String dongName = DongCode.getOrDefault(admiCd, admiCd);
+        String simpleLoc = simpleLocPrefix + "+" + dongName;
+
+        FootTrafficDto foot = generalClient.getFootTraffic(analyNoDefault, admiCd, upjongCd);
+        SimpleAnlsResponse simple = generalClient.getSimpleAnls(admiCd, upjongCd, simpleLoc);
+
+        PracticalDongAnls built = PracticalDongAnls.builder()
+                .admiCd(admiCd)
+                .upjongCd(upjongCd)
+                .footTrafficDto(foot)
+                .simpleAnlsDto(simple)
+                .build();
+
+        practicalRepository.put(upjongCd, admiCd, built);
+        return built;
+    }
+
 }

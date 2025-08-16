@@ -8,6 +8,7 @@ import startpointwas.domain.practical.dto.PracticalDongAnls;
 import startpointwas.domain.practical.dto.PracticalDongAnlsSlim;
 import startpointwas.domain.practical.mapper.PracticalMapper;
 import startpointwas.domain.practical.repository.PracticalRepository;
+import startpointwas.domain.practical.service.PracticalService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +17,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PracticalTools {
 
-    private final PracticalRepository repo;
+    private final PracticalRepository practicalRepository;
+    private final PracticalService service;
 
     @Tool(
             name = "fetch_practical_slim_by_dongs",
-            description = "업종코드(upjongCd)와 동코드(admiCds) 목록으로 각 동의 PracticalDongAnlsSlim을 반환한다."
+            description = "업종코드와 동코드 목록으로 각 동의 PracticalDongAnlsSlim을 반환한다."
     )
     public List<PracticalDongAnlsSlim> fetchSlims(
             @ToolParam(description = "업종 코드") String upjongCd,
@@ -28,7 +30,20 @@ public class PracticalTools {
     ) {
         List<PracticalDongAnlsSlim> result = new ArrayList<>();
         for (String admiCd : admiCds) {
-            PracticalDongAnls full = repo.get(upjongCd, admiCd);
+            PracticalDongAnls full = practicalRepository.get(upjongCd, admiCd);
+
+            if (full == null || full.getFootTrafficDto() == null || full.getSimpleAnlsDto() == null) {
+                try {
+                    full = service.buildAndCacheOne(upjongCd, admiCd);
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+
+            if (full == null || full.getFootTrafficDto() == null || full.getSimpleAnlsDto() == null) {
+                continue;
+            }
+
             result.add(PracticalMapper.toSlim(full));
         }
         return result;
