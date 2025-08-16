@@ -49,7 +49,6 @@ public class FeasibilityController {
         return Map.of("feasibilityScore", score);
     }
 
-
     private Integer extractScore(String content) {
         try {
             JsonNode n = om.readTree(content);
@@ -63,5 +62,6 @@ public class FeasibilityController {
         } catch (Exception ignore) {}
 
         return 0;
+
     }
 }
