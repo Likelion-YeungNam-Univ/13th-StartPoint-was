@@ -1,6 +1,7 @@
 package startpointwas.domain.chat.controller;
 
 
+import jakarta.servlet.http.HttpSession;
 import startpointwas.domain.chat.dto.ChatRequest;
 import startpointwas.domain.chat.entity.ChatMessagePairEntity;
 import startpointwas.domain.chat.exception.OpenAiApiException;
@@ -12,7 +13,7 @@ import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import startpointwas.global.SessionConst;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -30,10 +31,16 @@ public class ChatController {
     }
 
     @PostMapping("/ask")
-    public Map<String, Object> askWithAllHistory(@RequestBody ChatRequest request) {
+    public Map<String, Object> askWithAllHistory(@RequestBody ChatRequest request,
+                                                 HttpSession session) {
         Map<String, Object> res = new LinkedHashMap<>();
         try {
-            String userId = "jh";
+            String userId = Optional.ofNullable(session)
+                    .map(s -> s.getAttribute(SessionConst.LOGIN_USER_UID))
+                    .map(Object::toString)
+                    .filter(s -> !s.isBlank())
+                    .orElse("NULLUSER");
+
             String userMsg = Optional.ofNullable(request.getMessage()).orElse("");
             if (userMsg.isBlank()) return Map.of("error", "EMPTY_MESSAGE");
 
@@ -41,7 +48,6 @@ public class ChatController {
             if (msgs.size() > MAX_PAIRS * 2) {
                 msgs = msgs.subList(msgs.size() - MAX_PAIRS * 2, msgs.size());
             }
-
             msgs.add(new UserMessage(userMsg));
 
             String answer;
@@ -52,7 +58,9 @@ public class ChatController {
                 throw new OpenAiApiException("OpenAI 응답 처리 중 오류가 발생했습니다.", e);
             }
 
-            String contextId = "ctx-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss")) + "-" + userId;
+            String contextId = "ctx-" + LocalDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss")) + "-" + userId;
+
             contextSvc.appendPair(userId, contextId, userMsg, answer);
 
             res.put("contextId", contextId);
@@ -63,11 +71,19 @@ public class ChatController {
         }
         return res;
     }
-    @GetMapping(path = "/ask", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, Object>> getUserChatHistory(
-            @RequestParam("userId") String userId) {
 
-        List<ChatMessagePairEntity> records = contextSvc.getAllChatsByUser(userId);
+    @GetMapping(path = "/ask", params = "userId", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> getUserChatHistory(
+            @RequestParam(value = "userId", required = false) String userId,
+            HttpSession session) {
+
+        String effectiveUserId = Optional.ofNullable(userId)
+                .filter(s -> !s.isBlank())
+                .orElseGet(() -> Optional.ofNullable(session.getAttribute(SessionConst.LOGIN_USER_UID))
+                        .map(Object::toString)
+                        .orElse("NULLUSER"));
+
+        List<ChatMessagePairEntity> records = contextSvc.getAllChatsByUser(effectiveUserId);
 
         List<Map<String, Object>> history = new ArrayList<>();
         for (ChatMessagePairEntity p : records) {
@@ -78,11 +94,10 @@ public class ChatController {
         }
 
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put("userId", userId);
+        result.put("userId", effectiveUserId);
         result.put("count", records.size());
         result.put("history", history);
 
         return ResponseEntity.ok(result);
     }
-
 }

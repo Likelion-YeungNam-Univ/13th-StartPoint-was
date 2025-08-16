@@ -87,13 +87,6 @@ public class ChatContextService {
         return messages;
     }
 
-    @Transactional
-    public long clear(String contextId) {
-        long deleted = pairRepo.deleteByContextId(contextId);
-        redis.delete(keyList(contextId));
-        return deleted;
-    }
-
     @Transactional(readOnly = true)
     public List<ChatMessagePairEntity> getAllChatsByUser(String userId) {
         return pairRepo.findByUserIdOrderByIdAsc(userId);
