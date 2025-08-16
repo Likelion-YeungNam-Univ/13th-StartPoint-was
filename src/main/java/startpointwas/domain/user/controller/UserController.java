@@ -15,15 +15,14 @@ import startpointwas.domain.user.dto.SignUpReq;
 import startpointwas.domain.user.dto.UserInfoDto;
 import startpointwas.domain.user.entity.User;
 import startpointwas.domain.user.service.UserService;
+import startpointwas.global.SessionConst;
 
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
 
-    private static final String SESSION_KEY = "LOGIN_USER_ID";
     private final UserService userService;
-
 
     @PostMapping("/signup")
     public ResponseEntity<NameRoleRes> signUp(@Valid @RequestBody SignUpReq req) {
@@ -37,11 +36,9 @@ public class UserController {
     public ResponseEntity<NameRoleRes> login(@Valid @RequestBody LoginDto req,
                                              HttpServletRequest request) {
         User user = userService.login(req.getUserId(), req.getPassword());
-
         HttpSession session = request.getSession(true);
-        session.setAttribute(SESSION_KEY, user.getId());
+        session.setAttribute(SessionConst.LOGIN_USER_UID, user.getUserId());
         session.setMaxInactiveInterval(10 * 60 * 60);
-
         return ResponseEntity.ok(NameRoleRes.from(user));
     }
 
@@ -58,22 +55,22 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<?> me(HttpSession session) {
-        Long userId = (Long) session.getAttribute(SESSION_KEY);
-        if (userId == null) {
+        String uid = (String) session.getAttribute(SessionConst.LOGIN_USER_UID);
+        if (uid == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
-        return ResponseEntity.ok(userService.getUserInfo(userId));
+        return ResponseEntity.ok(userService.getUserInfoByUserId(uid));
     }
 
     @PatchMapping("/me")
     public ResponseEntity<Void> updateMyInfoPartial(HttpSession session,
                                                     @RequestBody UserInfoDto dto) {
-        Long userId = (Long) session.getAttribute(SESSION_KEY);
-        if (userId == null) {
+        String uid = (String) session.getAttribute(SessionConst.LOGIN_USER_UID);
+        if (uid == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
-        userService.updateUserPartial(userId, dto);
+        var updated = userService.updateUserPartialByUserId(uid, dto);
+        session.setAttribute(SessionConst.LOGIN_USER_UID, updated.getUserId());
         return ResponseEntity.noContent().build();
     }
 

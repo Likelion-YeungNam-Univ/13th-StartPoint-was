@@ -40,25 +40,7 @@ public class UserService {
         }
         return user;
     }
-    @Transactional
-    public void updateUserPartial(Long userId, UserInfoDto dto) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(RuntimeException::new);
 
-        if (dto.getUserId() != null && !dto.getUserId().isBlank()) {
-            user.setUserId(dto.getUserId());
-        }
-        if (dto.getName() != null) user.setName(dto.getName());
-        if (dto.getBirth() != null) user.setBirth(dto.getBirth());
-        if (dto.getEmail() != null) user.setEmail(dto.getEmail());
-        if (dto.getPhone() != null) user.setPhone(dto.getPhone());
-        if (dto.getRole() != null) user.setRole(dto.getRole());
-        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
-            user.setPassword(dto.getPassword());
-        }
-
-        userRepository.save(user);
-    }
     public void logout(HttpSession session, HttpServletResponse response) {
         if (session != null) session.invalidate();
 
@@ -71,10 +53,26 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserInfoDto getUserInfo(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
+    public UserInfoDto getUserInfoByUserId(String uid) {
+        User user = userRepository.findByUserId(uid)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
         return UserInfoDto.fromEntity(user);
+    }
+
+    @Transactional
+    public User updateUserPartialByUserId(String uid, UserInfoDto dto) {
+        User user = userRepository.findByUserId(uid)
+                .orElseThrow(RuntimeException::new);
+
+        if (dto.getUserId() != null && !dto.getUserId().isBlank()) user.setUserId(dto.getUserId());
+        if (dto.getName() != null) user.setName(dto.getName());
+        if (dto.getBirth() != null) user.setBirth(dto.getBirth());
+        if (dto.getEmail() != null) user.setEmail(dto.getEmail());
+        if (dto.getPhone() != null) user.setPhone(dto.getPhone());
+        if (dto.getRole() != null) user.setRole(dto.getRole());
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) user.setPassword(dto.getPassword());
+
+        return userRepository.save(user);
     }
 
 }
