@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import startpointwas.domain.practical.service.PracticalService;
 import startpointwas.domain.practical.tool.PracticalTools;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
