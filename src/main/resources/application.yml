@@ -30,8 +30,11 @@ spring:
             chat:
                 options:
                     model: gpt-3.5-turbo
+    main:
+        allow-bean-definition-overriding: true
 
 logging:
     level:
         org.springframework.ai.chat.client.advisor: DEBUG
+
 
