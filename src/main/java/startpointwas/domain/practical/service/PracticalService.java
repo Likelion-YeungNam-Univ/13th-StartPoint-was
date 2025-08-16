@@ -35,9 +35,7 @@ public class PracticalService {
                     if (full == null || full.getFootTrafficDto() == null || full.getSimpleAnlsDto() == null) {
                         try { full = buildAndCacheOne(upjongCd, admiCd); } catch (Exception ignored) {}
                     }
-                    if (full == null || full.getFootTrafficDto() == null || full.getSimpleAnlsDto() == null) {
-                        return null;
-                    }
+
                     return PracticalMapper.toSlim(full);
                 })
                 .toList();
