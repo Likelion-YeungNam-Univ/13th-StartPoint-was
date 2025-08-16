@@ -29,25 +29,12 @@ public class PracticalDongAnlsSlim {
 
     private Integer saleAmt;
     private Integer saleCnt;
-    private Integer guAmt;
-    private Integer siAmt;
 
     private Double prevMonRate;
     private Double prevYearRate;
     private Double prevMonCntRate;
     private Double prevYearCntRate;
     private Integer storeCntAdminNow;
-    private List<AvgListItem> avgList;
 
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class AvgListItem {
-        private Integer saleAmt;
-        private Integer maxAmt;
-        private Integer minAmt;
-        private String crtrYm;
-    }
 }
 

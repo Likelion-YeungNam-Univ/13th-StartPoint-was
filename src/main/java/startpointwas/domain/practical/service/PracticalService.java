@@ -7,10 +7,13 @@ import startpointwas.domain.general.dto.SimpleAnlsResponse;
 import startpointwas.domain.practical.DongCode;
 import startpointwas.domain.practical.client.GeneralClient;
 import startpointwas.domain.practical.dto.PracticalDongAnls;
+import startpointwas.domain.practical.dto.PracticalDongAnlsSlim;
+import startpointwas.domain.practical.mapper.PracticalMapper;
 import startpointwas.domain.practical.repository.PracticalRepository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +56,16 @@ public class PracticalService {
                     return built;
                 })
                 .toList();
+    }
+
+    public Map<String, Object> fetchAllDongsByUpjongAsMap(String upjongCd) {
+        List<PracticalDongAnlsSlim> items = fetchAllDongsByUpjong(upjongCd).stream()
+                .map(PracticalMapper::toSlim)
+                .toList();
+        return Map.of(
+                "upjongCd", upjongCd,
+                "items", items
+        );
     }
 
     public PracticalDongAnls buildAndCacheOne(String upjongCd, String admiCd) {
