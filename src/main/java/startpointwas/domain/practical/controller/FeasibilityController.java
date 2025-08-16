@@ -8,6 +8,7 @@ import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.web.bind.annotation.*;
 import startpointwas.domain.practical.service.PracticalService;
 
+
 import java.util.Map;
 
 @RestController
@@ -24,7 +25,6 @@ public class FeasibilityController {
             @RequestParam String admiCd,
             @RequestParam(name = "startupUpjong") String upjongCd
     ) {
-
         Map<String, Object> slim = practicalService.fetchAllDongsByUpjongAsMap(upjongCd);
 
         String slimJson;
@@ -65,9 +65,9 @@ public class FeasibilityController {
 
         Integer score = clamp0to10(extractScore(content));
 
+
         return Map.of("feasibilityScore", score);
     }
-
 
     private Integer extractScore(String content) {
         if (content == null) return 0;
@@ -94,5 +94,4 @@ public class FeasibilityController {
         if (v > 10) return 10;
         return v;
     }
-
 }
