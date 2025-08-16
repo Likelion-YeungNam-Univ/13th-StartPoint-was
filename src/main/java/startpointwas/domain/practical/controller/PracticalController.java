@@ -91,8 +91,7 @@ public class PracticalController {
         try {
             JsonNode node = om.readTree(content);
             int score = clamp0to10(node.get("feasibilityScore").asInt());
-            List<String> top3 = om.convertValue(
-                    node.get("top3"), new TypeReference<List<String>>() {});
+            List<String> top3 = om.convertValue( node.get("top3"), List.class);
             return Map.of("feasibilityScore", score, "top3", top3);
         } catch (Exception e) {
             return Map.of("feasibilityScore", 0, "top3", List.of());

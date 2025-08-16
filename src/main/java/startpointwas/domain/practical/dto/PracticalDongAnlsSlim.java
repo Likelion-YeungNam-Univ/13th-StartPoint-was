@@ -2,10 +2,11 @@ package startpointwas.domain.practical.dto;
 
 import lombok.*;
 
-import java.util.List;
 @Builder
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PracticalDongAnlsSlim {
     private String admiCd;
     private String stdYm;
