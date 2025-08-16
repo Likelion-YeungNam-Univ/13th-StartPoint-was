@@ -25,47 +25,27 @@ public class PracticalService {
     private final String analyNoDefault = "1143243";
     private final String simpleLocPrefix = "경상북도+경산시";
 
-    public List<PracticalDongAnls> fetchAllDongsByUpjong(String upjongCd) {
+    public List<PracticalDongAnlsSlim> fetchAllDongsSlimByUpjong(String upjongCd) {
         return Arrays.stream(DongCode.values())
                 .parallel()
                 .map(d -> {
 
                     String admiCd = d.getCode();
-                    String simpleLoc = simpleLocPrefix + "+" + d.getName();
-                    FootTrafficDto foot = null;
-                    SimpleAnlsResponse simple = null;
-
-                    try {
-                        foot = generalClient.getFootTraffic(analyNoDefault, admiCd, upjongCd);
-                    } catch (Exception ignored) {}
-                    try {
-                        simple = generalClient.getSimpleAnls(admiCd, upjongCd, simpleLoc);
-                    } catch (Exception ignored) {}
-
-                    PracticalDongAnls built =  PracticalDongAnls.builder()
-                            .admiCd(d.getCode())
-                            .upjongCd(upjongCd)
-                            .footTrafficDto(foot)
-                            .simpleAnlsDto(simple)
-                            .build();
-
-                    try {
-                        practicalRepository.put(upjongCd, admiCd, built);
-                    } catch (Exception ignored) {}
-                    
-                    return built;
+                    PracticalDongAnls full = practicalRepository.get(upjongCd, admiCd);
+                    if (full == null || full.getFootTrafficDto() == null || full.getSimpleAnlsDto() == null) {
+                        try { full = buildAndCacheOne(upjongCd, admiCd); } catch (Exception ignored) {}
+                    }
+                    if (full == null || full.getFootTrafficDto() == null || full.getSimpleAnlsDto() == null) {
+                        return null;
+                    }
+                    return PracticalMapper.toSlim(full);
                 })
                 .toList();
     }
 
     public Map<String, Object> fetchAllDongsByUpjongAsMap(String upjongCd) {
-        List<PracticalDongAnlsSlim> items = fetchAllDongsByUpjong(upjongCd).stream()
-                .map(PracticalMapper::toSlim)
-                .toList();
-        return Map.of(
-                "upjongCd", upjongCd,
-                "items", items
-        );
+        List<PracticalDongAnlsSlim> items = fetchAllDongsSlimByUpjong(upjongCd);
+        return Map.of("upjongCd", upjongCd, "items", items);
     }
 
     public PracticalDongAnls buildAndCacheOne(String upjongCd, String admiCd) {
