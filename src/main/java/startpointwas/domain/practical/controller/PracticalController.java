@@ -8,7 +8,9 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.api.ResponseFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import startpointwas.domain.practical.service.PracticalService;
 import startpointwas.domain.practical.tool.PracticalTools;
 
@@ -30,6 +32,12 @@ public class PracticalController {
             @RequestParam String admiCd,
             @RequestParam String startupUpjong
     ) {
+        if (admiCd == null || admiCd.isBlank() ||
+                startupUpjong == null || startupUpjong.isBlank()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST
+            );
+        }
         Map<String, Object> slim = practicalService.fetchAllDongsByUpjongAsMap(startupUpjong);
 
         String slimJson;
