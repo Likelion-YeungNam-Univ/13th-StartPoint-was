@@ -1,13 +1,14 @@
 package startpointwas.domain.chat.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FaqLinkDto {
+public class FaqQueAnsDto {
     private String id;
-    private String label;
+    private String question;
+    private String answer;
 }
