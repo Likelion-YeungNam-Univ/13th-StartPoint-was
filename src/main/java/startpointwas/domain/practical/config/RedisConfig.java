@@ -1,4 +1,5 @@
 package startpointwas.domain.practical.config;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
@@ -7,8 +8,9 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import startpointwas.domain.practical.dto.PracticalDongAnls;
 
 @Configuration
 @RequiredArgsConstructor
@@ -26,18 +28,19 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(redisConnectionFactory);
+    public RedisTemplate<String, PracticalDongAnls> practicalRedisTemplate(
+            RedisConnectionFactory redisConnectionFactory, ObjectMapper objectMapper) {
 
-        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer();
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(serializer);
-        template.setHashKeySerializer(new StringRedisSerializer());
-        template.setHashValueSerializer(serializer);
+        RedisTemplate<String, PracticalDongAnls> t = new RedisTemplate<>();
+        t.setConnectionFactory(redisConnectionFactory);
+        t.setKeySerializer(new StringRedisSerializer());
+        Jackson2JsonRedisSerializer<PracticalDongAnls> vs =
+                new Jackson2JsonRedisSerializer<>(PracticalDongAnls.class);
+        vs.setObjectMapper(objectMapper);
 
-        template.afterPropertiesSet();
-        return template;
+        t.setValueSerializer(vs);
+        t.afterPropertiesSet();
+        return t;
     }
 
 }

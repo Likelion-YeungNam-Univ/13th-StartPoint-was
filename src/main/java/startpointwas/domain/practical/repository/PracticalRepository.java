@@ -11,7 +11,7 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class PracticalRepository {
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, PracticalDongAnls> practicalRedisTemplate;
 
     private static final String format = "practical:anls:%s:%s";
 
@@ -20,11 +20,11 @@ public class PracticalRepository {
     }
 
     public void put(String upjongCd, String admiCd, PracticalDongAnls value) {
-        redisTemplate.opsForValue().set(key(upjongCd, admiCd), value, Duration.ofMinutes(5));
+        practicalRedisTemplate.opsForValue().set(key(upjongCd, admiCd), value, Duration.ofMinutes(5));
     }
 
     public PracticalDongAnls get(String upjongCd, String admiCd) {
-        return (PracticalDongAnls) redisTemplate.opsForValue()
+        return practicalRedisTemplate.opsForValue()
                 .get(key(upjongCd, admiCd));
     }
 
