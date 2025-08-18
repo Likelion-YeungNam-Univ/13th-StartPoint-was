@@ -14,6 +14,7 @@ public class FootTrafficDto {
     public static class Population {
         private int dayAvg;
         private double secondHour;
+        private double mon;
         private double thur;
         private double sat;
         private double weekend;
