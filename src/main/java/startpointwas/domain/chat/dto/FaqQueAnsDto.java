@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FaqQueAnsDto {
     private String id;
+    private String label;
     private String question;
     private String answer;
 }
