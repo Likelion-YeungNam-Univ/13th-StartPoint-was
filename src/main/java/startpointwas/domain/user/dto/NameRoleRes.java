@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import startpointwas.domain.user.entity.Role;
 import startpointwas.domain.user.entity.User;
 
 @Getter
@@ -12,12 +13,12 @@ import startpointwas.domain.user.entity.User;
 @Builder
 public class NameRoleRes {
     private String name;
-    private String role;
+    private Role role;
 
     public static NameRoleRes from(User user) {
         return NameRoleRes.builder()
                 .name(user.getName())
-                .role(user.getRole().name())
+                .role(user.getRole())
                 .build();
     }
 }
