@@ -1,9 +1,6 @@
 package startpointwas.domain.user.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -22,7 +19,10 @@ public class User {
     private String password;
     private LocalDate birth;
     private String email;
+
+    @Enumerated(EnumType.STRING)
     private Role role;
+
     private String phone;
     @Builder
     public User(String name,String userId, String password, LocalDate birth, String email, Role role, String phone) {
