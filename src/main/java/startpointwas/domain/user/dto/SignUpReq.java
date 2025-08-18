@@ -21,7 +21,7 @@ public class SignUpReq {
 
     private String email;
 
-    private String role;
+    private Role role;
 
     private String phone;
 
@@ -32,7 +32,7 @@ public class SignUpReq {
                 .password(encodedPassword)
                 .birth(this.birth)
                 .email(this.email)
-                .role(Role.valueOf(this.role))
+                .role(this.role)
                 .phone(this.phone)
                 .build();
     }
