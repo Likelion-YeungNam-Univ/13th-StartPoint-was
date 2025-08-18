@@ -32,6 +32,7 @@ public class PracticalController {
             @RequestParam String admiCd,
             @RequestParam String startupUpjong
     ) {
+        practicalService.ensureValidAdmiCd(admiCd);
         if (admiCd == null || admiCd.isBlank() ||
                 startupUpjong == null || startupUpjong.isBlank()) {
             throw new ResponseStatusException(

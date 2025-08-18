@@ -26,12 +26,22 @@ public enum DongCode {
     private final String code;
     private final String name;
 
-    public static String getOrDefault(String code, String defaultValue) {
+    public static boolean exists(String code) {
+        if (code == null) return false;
+        String c = code.trim();
+        for (DongCode d : DongCode.values()) {
+            if (d.code.equals(c)) return true;
+        }
+        return false;
+    }
+
+    public static String getDongName(String code) {
         for (DongCode d : DongCode.values()) {
             if (d.code.equals(code)) {
                 return d.name;
             }
         }
-        return defaultValue;
+        return null;
     }
+
 }

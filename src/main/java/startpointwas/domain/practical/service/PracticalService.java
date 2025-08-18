@@ -1,7 +1,9 @@
 package startpointwas.domain.practical.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import startpointwas.domain.general.dto.FootTrafficDto;
 import startpointwas.domain.general.dto.SimpleAnlsResponse;
 import startpointwas.domain.practical.DongCode;
@@ -47,7 +49,7 @@ public class PracticalService {
     }
 
     public PracticalDongAnls buildAndCacheOne(String upjongCd, String admiCd) {
-        String dongName = DongCode.getOrDefault(admiCd, admiCd);
+        String dongName = DongCode.getDongName(admiCd);
         String simpleLoc = simpleLocPrefix + "+" + dongName;
 
         FootTrafficDto foot = generalClient.getFootTraffic(analyNoDefault, admiCd, upjongCd);
@@ -64,4 +66,9 @@ public class PracticalService {
         return built;
     }
 
+    public void ensureValidAdmiCd(String admiCd) {
+        if (!DongCode.exists(admiCd)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
