@@ -1,5 +1,6 @@
 package startpointwas.domain.mentor.dto;
 
+import java.time.LocalTime;
 import java.util.List;
 
 public record EntrepreneurViewDto(
@@ -15,5 +16,7 @@ public record EntrepreneurViewDto(
         String headline,
         String intro,
         List<String> keywords,
-        List<String> topics
+        List<String> topics,
+        List<LocalTime> availableTimes
+
 ) {}

@@ -3,6 +3,8 @@ package startpointwas.domain.mentor.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import startpointwas.domain.mentor.dto.EntrepreneurViewDto;
+
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -19,7 +21,15 @@ public class EntrepreneurViewController {
                     즉석 떡볶이·수제 튀김을 핵심으로 점심 회전율을 극대화한 분식집입니다. 주방은 면·튀김·포장 3스테이션으로 분리하고, 선주문 QR로 대기 시간을 줄였습니다. 배달은 면·소스를 분리 포장해 20분 이내 품질을 보장하고, 주 1회 신메뉴 테스트로 재방문을 유도합니다.원팩 소스와 전처리 표준으로 원가 32~35%를 유지하며, 개점/마감 체크리스트로 위생을 일관되게 관리합니다.
                     """,
                     List.of("한식"),
-                    List.of("메뉴 개발", "원가·마진 관리", "배달·포장 전략")
+                    List.of("메뉴 개발", "원가·마진 관리", "배달·포장 전략"),
+                    List.of( // ✅ 시간 정보 추가
+                            LocalTime.of(10, 0),
+                            LocalTime.of(12, 0),
+                            LocalTime.of(14, 0),
+                            LocalTime.of(16, 0),
+                            LocalTime.of(18, 0),
+                            LocalTime.of(20, 0)
+                    )
             ),
             new EntrepreneurViewDto(
                     2L, "박서연", "소소상점", "소매", "중앙동",
@@ -30,7 +40,15 @@ public class EntrepreneurViewController {
                     지역 작가 굿즈와 생활소품을 선별하는 셀렉트숍으로, 카테고리별 VMD 룰(컬러·높이·거리)을 적용해 체류 시간을 늘립니다.    소량 다품종 발주로 재고 리스크를 분산하고, PB/독점 상품 비중을 높여 마진을 안정화했습니다. 월간 팝업·작가 토크로 동네 커뮤니티와 유입 루트를 만들고, 스탬프 적립으로 재방문을 만듭니다.
                     """,
                     List.of("장식품 소매", "기타 상품 소매"),
-                    List.of("상품 소싱/발주", "매대·동선 설계", "고객 경험 디자인")
+                    List.of("상품 소싱/발주", "매대·동선 설계", "고객 경험 디자인"),
+                    List.of( // ✅ 시간 정보 추가
+                            LocalTime.of(10, 0),
+                            LocalTime.of(12, 0),
+                            LocalTime.of(14, 0),
+                            LocalTime.of(16, 0),
+                            LocalTime.of(18, 0),
+                            LocalTime.of(20, 0)
+                    )
             ),
             new EntrepreneurViewDto(
                     3L, "정하늘", "하늘공방", "예체능", "남부동",
@@ -41,7 +59,15 @@ public class EntrepreneurViewController {
                     2시간 완성형 커리큘럼으로 입문 장벽을 낮추고 완성 만족도를 높였습니다. 재료 키트를 표준화해 폐기율을 3% 이하로 유지하고, 예약/환불 정책은 대기자 자동 배정으로 공석을 최소화합니다. 릴스·숏폼 기반 전후 비교 콘텐츠로 전환을 이끌고, 후기/리퍼럴 구조로 신규 수강생 유입을 안정화했습니다.
                     """,
                     List.of("유원지·오락"),
-                    List.of("클래스 기획·운영", "SNS 마케팅", "수강생 관리")
+                    List.of("클래스 기획·운영", "SNS 마케팅", "수강생 관리"),
+                    List.of( // ✅ 시간 정보 추가
+                            LocalTime.of(10, 0),
+                            LocalTime.of(12, 0),
+                            LocalTime.of(14, 0),
+                            LocalTime.of(16, 0),
+                            LocalTime.of(18, 0),
+                            LocalTime.of(20, 0)
+                    )
             ),
             new EntrepreneurViewDto(
                     4L, "김지훈", "아이디아학원", "교육", "동부동",
@@ -52,7 +78,15 @@ public class EntrepreneurViewController {
                     프로젝트 기반 학습(PBL)로 동기를 끌어올리고 결과물을 중심으로 부모와 성과를 투명하게 공유합니다. 레벨-모듈-프로젝트 3단 설계로 난이도와 몰입을 조절하며, 루브릭 평가·주간 리포트로 피드백을 표준화했습니다. 상담/체험/등록 데이터를 CRM에 누적해 재등록과 추천 전환율을 체계적으로 관리합니다.
                     """,
                     List.of("일반 교육", "교육 지원"),
-                    List.of("커리큘럼 설계", "수강료/운영", "상담·전환")
+                    List.of("커리큘럼 설계", "수강료/운영", "상담·전환"),
+                    List.of( // ✅ 시간 정보 추가
+                            LocalTime.of(10, 0),
+                            LocalTime.of(12, 0),
+                            LocalTime.of(14, 0),
+                            LocalTime.of(16, 0),
+                            LocalTime.of(18, 0),
+                            LocalTime.of(20, 0)
+                    )
             ),
             new EntrepreneurViewDto(
                     5L, "오수진", "테크드립랩", "과학/기술", "자인면",
@@ -63,7 +97,15 @@ public class EntrepreneurViewController {
                     3D프린팅·레이저커팅 등 디지털 제작 장비로 시제품 제작을 돕는 메이커 스페이스입니다. 장비별 SOP와 안전 교육을 의무화하고, 예약/정비 표준으로 다운타임을 최소화했습니다. 멤버십(라이트/프로)과 기업 협업 프로그램으로 수익원을 다변화하고, 해커톤/전시회로 커뮤니티를 성장시키고 있습니다.
                     """,
                     List.of("인쇄·제품제작", "전문 디자인", "기술 서비스"),
-                    List.of("장비 운영", "공간·안전 설계", "커뮤니티 운영")
+                    List.of("장비 운영", "공간·안전 설계", "커뮤니티 운영"),
+                    List.of( // ✅ 시간 정보 추가
+                            LocalTime.of(10, 0),
+                            LocalTime.of(12, 0),
+                            LocalTime.of(14, 0),
+                            LocalTime.of(16, 0),
+                            LocalTime.of(18, 0),
+                            LocalTime.of(20, 0)
+                    )
             ),
             new EntrepreneurViewDto(
                     6L, "최영훈", "초록치유의원", "보건의료", "용성면",
@@ -74,7 +116,15 @@ public class EntrepreneurViewController {
                     생활 통증 중심의 도수·재활 프로그램을 개인별 경과표로 관리합니다. 초진→평가→치료→자가운동 교육의 경로를 표준화해 만족도를 높였고, EMR 템플릿과 운동 영상 QR로 홈케어 효율을 끌어올렸습니다. 지역 체육·복지시설과 제휴를 맺어 접근성과 재방문을 동시에 확보했습니다.
                     """,
                     List.of("의원", "기타 보건"),
-                    List.of("서비스 기획", "컴플라이언스", "지역 제휴")
+                    List.of("서비스 기획", "컴플라이언스", "지역 제휴"),
+                    List.of( // ✅ 시간 정보 추가
+                            LocalTime.of(10, 0),
+                            LocalTime.of(12, 0),
+                            LocalTime.of(14, 0),
+                            LocalTime.of(16, 0),
+                            LocalTime.of(18, 0),
+                            LocalTime.of(20, 0)
+                    )
             ),
             new EntrepreneurViewDto(
                     7L, "한지민", "달빛게스트하우스", "숙박", "하양읍",
@@ -85,7 +135,15 @@ public class EntrepreneurViewController {
                     역세권 입지와 셀프 체크인으로 비대면 편의를 강화했습니다. 체크아웃~체크인 사이 하우스키핑 턴오버를 분 단위로 관리하고, OTA 채널 매니저로 시즌별 요금·재고를 탄력적으로 운영합니다. 표준화된 메시지/응답 템플릿으로 리뷰 품질을 높이고, 장기투숙 패키지로 비수기 객실 점유율을 방어합니다.
                     """,
                     List.of("일반 숙박", "기타 숙박"),
-                    List.of("리뷰 관리", "청소·턴오버", "요금·채널")
+                    List.of("리뷰 관리", "청소·턴오버", "요금·채널"),
+                    List.of( // ✅ 시간 정보 추가
+                            LocalTime.of(10, 0),
+                            LocalTime.of(12, 0),
+                            LocalTime.of(14, 0),
+                            LocalTime.of(16, 0),
+                            LocalTime.of(18, 0),
+                            LocalTime.of(20, 0)
+                    )
             ),
             new EntrepreneurViewDto(
                     8L, "윤서준", "하양부동산연구소", "부동산", "압량읍",
@@ -96,7 +154,15 @@ public class EntrepreneurViewController {
                     개발 호재·실수요 데이터를 교차 검증해 투자/거주 맞춤 제안을 드립니다. 상담→투어→계약 퍼널을 수치로 관리하고, 매물 확보는 지역 네트워크와 데이터 수집을 병행합니다. 법적 공시·계약 리스크를 체크리스트로 표준화해 의사결정의 불확실성을 줄였습니다.
                     """,
                     List.of("부동산 중개"),
-                    List.of("지역 데이터 해석", "상담 스크립트", "매물 확보")
+                    List.of("지역 데이터 해석", "상담 스크립트", "매물 확보"),
+                    List.of( // ✅ 시간 정보 추가
+                            LocalTime.of(10, 0),
+                            LocalTime.of(12, 0),
+                            LocalTime.of(14, 0),
+                            LocalTime.of(16, 0),
+                            LocalTime.of(18, 0),
+                            LocalTime.of(20, 0)
+                    )
             ),
             new EntrepreneurViewDto(
                     9L, "장유진", "동부수선실", "수리/개인", "와촌면",
@@ -107,7 +173,15 @@ public class EntrepreneurViewController {
                     가방/지갑 수선을 전문으로 접수→상담→견적→작업→사후관리까지 전 과정을 표준화했습니다. 접수 시 하자 부위 사진 기록과 자재 견본을 함께 보관해 작업 정확도를 높이고, 완성품은 전후 비교로 품질을 투명하게 설명합니다. 30일 워런티와 가죽 케어 가이드를 제공해 단골 비중을 꾸준히 키우고 있습니다.
                     """,
                     List.of("기타 개인 서비스"),
-                    List.of("접수/견적", "자재 관리", "사후 케어")
+                    List.of("접수/견적", "자재 관리", "사후 케어"),
+                    List.of( // ✅ 시간 정보 추가
+                            LocalTime.of(10, 0),
+                            LocalTime.of(12, 0),
+                            LocalTime.of(14, 0),
+                            LocalTime.of(16, 0),
+                            LocalTime.of(18, 0),
+                            LocalTime.of(20, 0)
+                    )
             )
     );
 }
