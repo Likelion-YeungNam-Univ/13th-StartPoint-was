@@ -26,6 +26,7 @@ public class FootTrafficDto {
         private double tues;
         private double fri;
         private double firstHour;
+        private String stdYm;
         private double day;
         private double thirdHour;
     }
