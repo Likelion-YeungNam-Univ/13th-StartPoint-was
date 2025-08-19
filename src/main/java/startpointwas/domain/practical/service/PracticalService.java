@@ -6,8 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import startpointwas.domain.general.dto.FootTrafficDto;
 import startpointwas.domain.general.dto.SimpleAnlsResponse;
+import startpointwas.domain.general.service.FootTrafficService;
+import startpointwas.domain.general.service.SimpleAnlsService;
 import startpointwas.domain.practical.DongCode;
-import startpointwas.domain.practical.client.GeneralClient;
 import startpointwas.domain.practical.dto.PracticalDongAnls;
 import startpointwas.domain.practical.dto.PracticalDongAnlsSlim;
 import startpointwas.domain.practical.mapper.PracticalMapper;
@@ -21,7 +22,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PracticalService {
 
-    private final GeneralClient generalClient;
+    private final FootTrafficService footTrafficService;
+    private final SimpleAnlsService simpleAnlsService;
+
     private final PracticalRepository practicalRepository;
 
     private final String analyNoDefault = "1143243";
@@ -52,8 +55,8 @@ public class PracticalService {
         String dongName = DongCode.getDongName(admiCd);
         String simpleLoc = simpleLocPrefix + "+" + dongName;
 
-        FootTrafficDto foot = generalClient.getFootTraffic(analyNoDefault, admiCd, upjongCd);
-        SimpleAnlsResponse simple = generalClient.getSimpleAnls(admiCd, upjongCd, simpleLoc);
+        FootTrafficDto foot = footTrafficService.fetchFootTrafficInfo(analyNoDefault, admiCd, upjongCd);
+        SimpleAnlsResponse simple = simpleAnlsService.fetchAvgAmtInfo(admiCd, upjongCd, simpleLoc);
 
         PracticalDongAnls built = PracticalDongAnls.builder()
                 .admiCd(admiCd)
