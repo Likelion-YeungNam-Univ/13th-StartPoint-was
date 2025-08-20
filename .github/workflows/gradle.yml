@@ -35,7 +35,7 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/${{ env.IMAGE }}
-
+          
   deploy:
     needs: build
     runs-on: ubuntu-latest
