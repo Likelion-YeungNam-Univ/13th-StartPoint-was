@@ -1,0 +1,184 @@
+package startpointwas.domain.mentor.component;
+
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+import startpointwas.domain.mentor.entity.Entrepreneur;
+import startpointwas.domain.mentor.repository.EntrepreneurRepository;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
+public class EntrepreneurDataInitializer implements CommandLineRunner {
+
+    private final EntrepreneurRepository repository;
+    private final JdbcTemplate jdbcTemplate;
+
+    @Override
+    public void run(String [] args) {
+        repository.deleteAll();
+        jdbcTemplate.execute("ALTER TABLE entrepreneur AUTO_INCREMENT = 1");
+
+
+        List<Entrepreneur> data = List.of(
+                Entrepreneur.builder()
+                        .name("이민호")
+                        .storeName("청춘분식")
+                        .category("음식")
+                        .area("서부1동")
+                        .bio("즉석 떡볶이와 수제 튀김으로 서부1동 점심 러시를 사로잡은 집입니다. 10년간 쌓아온 분식 운영 노하우와 메뉴 개발 비법을 공유합니다.")
+                        .likeCount(56)
+                        .headline("「청춘분식」를 운영하고 있는 이민호입니다.")
+                        .intro("""
+                    즉석 떡볶이·수제 튀김을 핵심으로 점심 회전율을 극대화한 분식집입니다. 주방은 면·튀김·포장 3스테이션으로 분리하고, 선주문 QR로 대기 시간을 줄였습니다. 배달은 면·소스를 분리 포장해 20분 이내 품질을 보장하고, 주 1회 신메뉴 테스트로 재방문을 유도합니다.원팩 소스와 전처리 표준으로 원가 32~35%를 유지하며, 개점/마감 체크리스트로 위생을 일관되게 관리합니다.
+                    """)
+                        .registeredDate(LocalDate.of(2025, 8, 1))
+                        .registeredTime(LocalTime.of(0, 0))
+                        .keywords(List.of("한식", "기타 한식 음식점"))
+                        .topics(List.of("메뉴 개발", "원가·마진 관리", "배달·포장 전략"))
+                        .build(),
+
+                Entrepreneur.builder()
+                        .name("박서연")
+                        .storeName("소소상점")
+                        .category("소매")
+                        .area("중앙동")
+                        .bio("중앙동 골목에서 지역 작가 굿즈와 생활소품을 선별해 판매합니다. 소규모 셀렉트숍 창업자들에게 발주, 진열, 고객 경험 디자인에 대한 팁을 전합니다.")
+                        .likeCount(43)
+                        .headline("「소소상점」을 운영하고 있는 박서연입니다.")
+                        .intro("""
+                    지역 작가 굿즈와 생활소품을 선별하는 셀렉트숍으로, 카테고리별 VMD 룰(컬러·높이·거리)을 적용해 체류 시간을 늘립니다.    소량 다품종 발주로 재고 리스크를 분산하고, PB/독점 상품 비중을 높여 마진을 안정화했습니다. 월간 팝업·작가 토크로 동네 커뮤니티와 유입 루트를 만들고, 스탬프 적립으로 재방문을 만듭니다.
+                    """)
+                        .registeredDate(LocalDate.of(2025, 8, 1))
+                        .registeredTime(LocalTime.of(0, 0))
+                        .keywords(List.of("장식품 소매", "기념품점", "예술품 소매업", "기타 상품 소매"))
+                        .topics(List.of("상품 소싱/발주", "매대·동선 설계", "고객 경험 디자인"))
+                        .build(),
+
+                Entrepreneur.builder()
+                        .name("정하늘")
+                        .storeName("하늘공방")
+                        .category("예체능")
+                        .area("남부동")
+                        .bio("초보도 2시간이면 머그컵 하나 완성! 남부동 대표 취미 공방입니다. 원데이 클래스 운영과 SNS 마케팅으로 수강생을 확보하는 방법을 알려드립니다.")
+                        .likeCount(28)
+                        .headline("「하늘공방」을 운영하고 있는 정하늘입니다.")
+                        .intro("""
+                    2시간 완성형 커리큘럼으로 입문 장벽을 낮추고 완성 만족도를 높였습니다. 재료 키트를 표준화해 폐기율을 3% 이하로 유지하고, 예약/환불 정책은 대기자 자동 배정으로 공석을 최소화합니다. 릴스·숏폼 기반 전후 비교 콘텐츠로 전환을 이끌고, 후기/리퍼럴 구조로 신규 수강생 유입을 안정화했습니다.
+                    """)
+                        .registeredDate(LocalDate.of(2025, 8, 1))
+                        .registeredTime(LocalTime.of(0, 0))
+                        .keywords(List.of("유원지·오락", "기타 오락관련 서비스업"))
+                        .topics(List.of("클래스 기획·운영", "SNS 마케팅", "수강생 관리"))
+                        .build(),
+
+                Entrepreneur.builder()
+                        .name("김지훈")
+                        .storeName("아이디아학원")
+                        .category("교육")
+                        .area("동부동")
+                        .bio("프로젝트 기반 수업으로 스스로 탐구하는 힘을 길러줍니다. 교육 창업자들에게 커리큘럼 기획과 학부모 상담 노하우를 공유합니다.")
+                        .likeCount(31)
+                        .headline("「아이디아학원」을 운영하고 있는 김지훈입니다.")
+                        .intro("""
+                    프로젝트 기반 학습(PBL)로 동기를 끌어올리고 결과물을 중심으로 부모와 성과를 투명하게 공유합니다. 레벨-모듈-프로젝트 3단 설계로 난이도와 몰입을 조절하며, 루브릭 평가·주간 리포트로 피드백을 표준화했습니다. 상담/체험/등록 데이터를 CRM에 누적해 재등록과 추천 전환율을 체계적으로 관리합니다.
+                    """)
+                        .registeredDate(LocalDate.of(2025, 8, 1))
+                        .registeredTime(LocalTime.of(0, 0))
+                        .keywords(List.of("일반 교육", "입시*교과학원", "교육 지원", "교육컨설팅업"))
+                        .topics(List.of("커리큘럼 설계", "수강료/운영", "상담·전환"))
+                        .build(),
+
+                Entrepreneur.builder()
+                        .name("오수진")
+                        .storeName("테크드립랩")
+                        .category("과학/기술")
+                        .area("자인면")
+                        .bio("3D프린팅·레이저커팅 장비 대여와 시제품 제작을 지원합니다. 메이커 스페이스 창업을 꿈꾸는 분들께 장비 운영, 공간 설계, 커뮤니티 활성화 전략을 전합니다.")
+                        .likeCount(37)
+                        .headline("「테크드립랩」을 운영하고 있는 오수진입니다.")
+                        .intro("""
+                    3D프린팅·레이저커팅 등 디지털 제작 장비로 시제품 제작을 돕는 메이커 스페이스입니다. 장비별 SOP와 안전 교육을 의무화하고, 예약/정비 표준으로 다운타임을 최소화했습니다. 멤버십(라이트/프로)과 기업 협업 프로그램으로 수익원을 다변화하고, 해커톤/전시회로 커뮤니티를 성장시키고 있습니다.
+                    """)
+                        .registeredDate(LocalDate.of(2025, 8, 1))
+                        .registeredTime(LocalTime.of(0, 0))
+                        .keywords(List.of("인쇄·제품제작", "명함/간판/광고물 제작", "전문 디자인", "제품 디자인업", "기술 서비스", "기타 엔지니어링 서비스업"))
+                        .topics(List.of("장비 운영", "공간·안전 설계", "커뮤니티 운영"))
+                        .build(),
+
+                Entrepreneur.builder()
+                        .name("최영훈")
+                        .storeName("초록치유의원")
+                        .category("보건의료")
+                        .area("용성면")
+                        .bio("생활 통증을 위한 도수·재활 프로그램을 상시 운영합니다. 지역 기반 의료 창업자에게 환자 맞춤형 서비스 기획과 신뢰 형성 전략을 알려드립니다.")
+                        .likeCount(40)
+                        .headline("「초록치유의원」을 운영하고 있는 최영훈입니다.")
+                        .intro("""
+                    생활 통증 중심의 도수·재활 프로그램을 개인별 경과표로 관리합니다. 초진→평가→치료→자가운동 교육의 경로를 표준화해 만족도를 높였고, EMR 템플릿과 운동 영상 QR로 홈케어 효율을 끌어올렸습니다. 지역 체육·복지시설과 제휴를 맺어 접근성과 재방문을 동시에 확보했습니다.
+                    """)
+                        .registeredDate(LocalDate.of(2025, 8, 1))
+                        .registeredTime(LocalTime.of(0, 0))
+                        .keywords(List.of("의원", "기타의원", "기타 보건"))
+                        .topics(List.of("서비스 기획", "컴플라이언스", "지역 제휴"))
+                        .build(),
+
+                Entrepreneur.builder()
+                        .name("한지민")
+                        .storeName("달빛게스트하우스")
+                        .category("숙박")
+                        .area("하양읍")
+                        .bio("하양역 도보 5분, 조식 제공·셀프 체크인 가능한 게스트하우스입니다. 여행자 친화적 서비스와 OTA(숙박 플랫폼) 운영 전략을 공유합니다.")
+                        .likeCount(52)
+                        .headline("「달빛게스트하우스」를 운영하고 있는 한지민입니다.")
+                        .intro("""
+                    역세권 입지와 셀프 체크인으로 비대면 편의를 강화했습니다. 체크아웃~체크인 사이 하우스키핑 턴오버를 분 단위로 관리하고, OTA 채널 매니저로 시즌별 요금·재고를 탄력적으로 운영합니다. 표준화된 메시지/응답 템플릿으로 리뷰 품질을 높이고, 장기투숙 패키지로 비수기 객실 점유율을 방어합니다.
+                    """)
+                        .registeredDate(LocalDate.of(2025, 8, 1))
+                        .registeredTime(LocalTime.of(0, 0))
+                        .keywords(List.of("일반 숙박","기타 숙박", "펜션"))
+                        .topics(List.of("리뷰 관리", "청소·턴오버", "요금·채널"))
+                        .build(),
+
+                Entrepreneur.builder()
+                        .name("윤서준")
+                        .storeName("하양부동산연구소")
+                        .category("부동산")
+                        .area("압량읍")
+                        .bio("압량읍 개발 호재 중심으로 투자/거주 맞춤 매물을 제안합니다. 부동산 창업자에게 지역 분석, 투자자 상담, 매물 확보 전략을 전수합니다.")
+                        .likeCount(35)
+                        .headline("「하양부동산연구소」를 운영하고 있는 윤서준입니다.")
+                        .intro("""
+                    개발 호재·실수요 데이터를 교차 검증해 투자/거주 맞춤 제안을 드립니다. 상담→투어→계약 퍼널을 수치로 관리하고, 매물 확보는 지역 네트워크와 데이터 수집을 병행합니다. 법적 공시·계약 리스크를 체크리스트로 표준화해 의사결정의 불확실성을 줄였습니다.
+                    """)
+                        .registeredDate(LocalDate.of(2025, 8, 1))
+                        .registeredTime(LocalTime.of(0, 0))
+                        .keywords(List.of("부동산 서비스", "부동산 중개/대리업"))
+                        .topics(List.of("지역 데이터 해석", "상담 스크립트", "매물 확보"))
+                        .build(),
+
+                Entrepreneur.builder()
+                        .name("장유진")
+                        .storeName("동부수선실")
+                        .category("수리/개인")
+                        .area("와촌면")
+                        .bio("브랜드 가방 지퍼 교체부터 가죽 복원까지 섬세하게 작업합니다. 수선 업계에서 고객 신뢰를 쌓는 방법과 단골을 만드는 비결을 알려드립니다.")
+                        .likeCount(33)
+                        .headline("「동부수선실」을 운영하고 있는 장유진입니다.")
+                        .intro("""
+                    가방/지갑 수선을 전문으로 접수→상담→견적→작업→사후관리까지 전 과정을 표준화했습니다. 접수 시 하자 부위 사진 기록과 자재 견본을 함께 보관해 작업 정확도를 높이고, 완성품은 전후 비교로 품질을 투명하게 설명합니다. 30일 워런티와 가죽 케어 가이드를 제공해 단골 비중을 꾸준히 키우고 있습니다.
+                    """)
+                        .registeredDate(LocalDate.of(2025, 8, 1))
+                        .registeredTime(LocalTime.of(0, 0))
+                        .keywords(List.of("기타 가정용품 수리", "가죽/가방/신발 수선업"))
+                        .topics(List.of("접수/견적", "자재 관리", "사후 케어"))
+                        .build()
+        );
+        repository.saveAll(data);
+    }
+}
