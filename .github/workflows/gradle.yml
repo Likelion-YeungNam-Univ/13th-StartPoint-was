@@ -5,6 +5,13 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ghcr.io/likelion-yeungnam-univ/startpoint-was:latest
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,8 +34,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/my-app:latest
-
+          tags: ghcr.io/${{ env.IMAGE }}
+          
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -41,10 +48,17 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to server
+        env:
+          GHCR_USER: ${{ github.actor }}
+          GHCR_PAT: ${{ secrets.CR_PAT }}
+          IMAGE: ${{ env.IMAGE }}
+          NAME: startpoint-was
+          HOST_PORT: 80
+          APP_PORT: 8080
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-          docker pull ghcr.io/${{ github.repository_owner }}/my-app:latest
-          docker stop my-app || true
-          docker rm my-app || true
-          docker run -d --name my-app -p 80:80 ghcr.io/${{ github.repository_owner }}/my-app:latest
+          docker pull "$IMAGE"
+          docker stop "$NAME" || true
+          docker rm "$NAME" || true
+          docker run -d --name "$NAME" -p $HOST_PORT:$APP_PORT "$IMAGE"
           EOF
