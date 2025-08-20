@@ -53,13 +53,38 @@ jobs:
           GHCR_USER: ${{ github.actor }}
           GHCR_PAT: ${{ secrets.CR_PAT }}
           IMAGE: ${{ env.IMAGE }}
+          ENV_FILE:  /home/ubuntu/set-env.sh
           NAME: startpoint-was
           HOST_PORT: 80
           APP_PORT: 8080
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            IMAGE="$IMAGE" NAME="$NAME" HOST_PORT="$HOST_PORT" APP_PORT="$APP_PORT" \
+            ENV_FILE="$ENV_FILE" GHCR_USER="$GHCR_USER" GHCR_PAT="$GHCR_PAT" \
+            'bash -s' << 'EOF'
+          set -e
+          
+          echo "$GHCR_PAT" | docker login ghcr.io -u "$GHCR_USER" --password-stdin || true
+          
+          if    [ ! -f "$ENV_FILE" ]; then
+            echo "ENV_FILE not found: $ENV_FILE" >&2
+            exit 1
+          fi
+          if grep -q '^export ' "$ENV_FILE"; then
+            sed -E 's/^export[[:space:]]+//' "$ENV_FILE" > /tmp/.env
+          else
+            cp "$ENV_FILE" /tmp/.env
+          fi
+
           docker pull "$IMAGE"
           docker stop "$NAME" || true
           docker rm "$NAME" || true
-          docker run -d --name "$NAME" -p $HOST_PORT:$APP_PORT "$IMAGE"
+          
+          docker run -d --name "$NAME" \
+          --restart unless-stopped \
+          --env-file /tmp/.env \
+          -p "$HOST_PORT":"$APP_PORT" \
+          "$IMAGE"
+
+          rm -f /tmp/.env
           EOF
