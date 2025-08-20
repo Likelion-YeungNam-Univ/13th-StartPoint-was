@@ -12,7 +12,6 @@ import startpointwas.domain.practical.DongCode;
 import startpointwas.domain.practical.dto.PracticalDongAnls;
 import startpointwas.domain.practical.dto.PracticalDongAnlsSlim;
 import startpointwas.domain.practical.mapper.PracticalMapper;
-import startpointwas.domain.practical.repository.PracticalRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,24 +24,20 @@ public class PracticalService {
     private final FootTrafficService footTrafficService;
     private final SimpleAnlsService simpleAnlsService;
 
-    private final PracticalRepository practicalRepository;
-
     private final String analyNoDefault = "1143243";
     private final String simpleLocPrefix = "경상북도+경산시";
 
     public List<PracticalDongAnlsSlim> fetchAllDongsSlimByUpjong(String upjongCd) {
         return Arrays.stream(DongCode.values())
-                .parallel()
-                .map(d -> {
-
-                    String admiCd = d.getCode();
-                    PracticalDongAnls full = practicalRepository.get(upjongCd, admiCd);
-                    if (full == null || full.getFootTrafficDto() == null || full.getSimpleAnlsDto() == null) {
-                        try { full = buildAndCacheOne(upjongCd, admiCd); } catch (Exception ignored) {}
-                    }
-
-                    return PracticalMapper.toSlim(full);
+                .map(DongCode::getCode)
+                .map(admiCd -> {
+                    try {
+                        PracticalDongAnls full = buildOne(upjongCd, admiCd);
+                        return PracticalMapper.toSlim(full);
+                    } catch (Exception ignored) { }
+                    return null;
                 })
+                .filter(java.util.Objects::nonNull)
                 .toList();
     }
 
@@ -51,7 +46,7 @@ public class PracticalService {
         return Map.of("upjongCd", upjongCd, "items", items);
     }
 
-    public PracticalDongAnls buildAndCacheOne(String upjongCd, String admiCd) {
+    public PracticalDongAnls buildOne(String upjongCd, String admiCd) {
         String dongName = DongCode.getDongName(admiCd);
         String simpleLoc = simpleLocPrefix + "+" + dongName;
 
@@ -65,7 +60,6 @@ public class PracticalService {
                 .simpleAnlsDto(simple)
                 .build();
 
-        practicalRepository.put(upjongCd, admiCd, built);
         return built;
     }
 

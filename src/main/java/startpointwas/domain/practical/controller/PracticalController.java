@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import startpointwas.domain.practical.service.PracticalService;
-import startpointwas.domain.practical.tool.PracticalTools;
 
 import java.util.List;
 import java.util.Map;
@@ -25,25 +24,25 @@ public class PracticalController {
     private final ChatClient chat;
     private final PracticalService practicalService;
     private final ObjectMapper om = new ObjectMapper();
-    private final PracticalTools practicalTools;
 
     @GetMapping()
     public Map<String, Object> Practical(
             @RequestParam String admiCd,
             @RequestParam String startupUpjong
     ) {
-        practicalService.ensureValidAdmiCd(admiCd);
         if (admiCd == null || admiCd.isBlank() ||
                 startupUpjong == null || startupUpjong.isBlank()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST
             );
         }
-        Map<String, Object> slim = practicalService.fetchAllDongsByUpjongAsMap(startupUpjong);
+        practicalService.ensureValidAdmiCd(admiCd);
+
+        Map<String, Object> practicalDongAnls = practicalService.fetchAllDongsByUpjongAsMap(startupUpjong);
 
         String slimJson;
         try {
-            slimJson = om.writeValueAsString(Map.of("upjongCd", startupUpjong, "items", slim));
+            slimJson = om.writeValueAsString(practicalDongAnls);
         } catch (Exception e) {
             slimJson = "{\"error\":\"failed_to_serialize_slim\"}";
         }
@@ -78,9 +77,7 @@ public class PracticalController {
             { "admiCd": string, "admiCd": string, "admiCd": string }
           ]
         }
-        """.formatted(startupUpjong, admiCd);
-
-        String singleUser = slimJson + "\n" + user;
+        """.formatted(slimJson, startupUpjong, admiCd);
 
         OpenAiChatOptions opts = OpenAiChatOptions.builder()
                 .responseFormat(ResponseFormat.builder()
@@ -92,8 +89,7 @@ public class PracticalController {
                 .options(opts)
                 .advisors(new SimpleLoggerAdvisor())
                 .system(system)
-                .user(singleUser)
-                .tools(practicalTools)
+                .user(user)
                 .call()
                 .content();
 
