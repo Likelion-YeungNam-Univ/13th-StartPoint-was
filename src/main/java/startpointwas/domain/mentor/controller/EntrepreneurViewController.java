@@ -29,7 +29,30 @@ public class EntrepreneurViewController {
         return ResponseEntity.ok(dtos);
     }
 
-
-
-
+    @PatchMapping("/{id}")
+    public ResponseEntity<EntrepreneurViewDto> updateDateAndTime(
+            @PathVariable Long id,
+            @RequestBody UpdateRegistrationTimeRequest req
+    ) {
+        return repository.findById(id)
+                .map(e -> {
+                    if (req.registeredDate() != null) {
+                        e.setRegisteredDate(req.registeredDate());
+                    }
+                    if (req.registeredTime() != null) {
+                        e.setRegisteredTime(req.registeredTime());
+                    }
+                    repository.save(e);
+                    return ResponseEntity.ok(
+                            new EntrepreneurViewDto(
+                                    e.getId(), e.getName(), e.getStoreName(),
+                                    e.getCategory(), e.getArea(), e.getBio(),
+                                    e.getLikeCount(), e.getHeadline(), e.getIntro(),
+                                    e.getRegisteredDate(), e.getRegisteredTime(),
+                                    e.getKeywords(), e.getTopics()
+                            )
+                    );
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
