@@ -1,17 +1,15 @@
-FROM gradle:8.5-jdk17 AS builder
-WORKDIR /app
+FROM openjdk:17-alpine AS builder
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
+COPY src src
+RUN chmod +x ./gradlew
+RUN apk add --no-cache findutils
+RUN ./gradlew build -x test
 
-COPY build.gradle settings.gradle ./
-COPY gradle ./gradle
-COPY gradlew ./
-RUN ./gradlew build || return 0
-
-COPY . .
-RUN ./gradlew clean build -x test
-
-FROM eclipse-temurin:17-jdk
-WORKDIR /app
-
-COPY --from=builder /app/build/libs/*.jar app.jar
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+FROM openjdk:17-alpine
+RUN mkdir /opt/app
+COPY --from=builder build/libs/*.jar /opt/app/spring-boot-application.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/opt/app/spring-boot-application.jar"]
