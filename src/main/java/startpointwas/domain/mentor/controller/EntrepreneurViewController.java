@@ -29,6 +29,19 @@ public class EntrepreneurViewController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<EntrepreneurViewDto> getById(@PathVariable Long id) {
+        return repository.findById(id)
+                .map(e -> new EntrepreneurViewDto(
+                        e.getId(), e.getName(), e.getStoreName(), e.getCategory(), e.getArea(),
+                        e.getBio(), e.getLikeCount(), e.getHeadline(), e.getIntro(),
+                        e.getRegisteredDate(), e.getRegisteredTime(), e.getKeywords(), e.getTopics()
+                ))
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
     @PatchMapping("/{id}")
     public ResponseEntity<EntrepreneurViewDto> updateDateAndTime(
             @PathVariable Long id,
