@@ -27,12 +27,6 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
 
-    ###  application.properties (main) 생성
-    - name: Generate application.properties (main)
-      run: |
-        mkdir -p src/main/resources
-        echo "${{ secrets.APPLICATION_PROPERTIES }}" > src/main/resources/application.yml
-
     ### Gradle Build (테스트 제외)
     - name: Build with Gradle Wrapper
       run: ./gradlew build -x test
