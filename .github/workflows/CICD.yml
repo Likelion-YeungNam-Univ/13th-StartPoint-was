@@ -59,7 +59,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           echo "Starting deployment..."
-          cd ~/howWeather-backend
+          cd ~/13th-StartPoint-was
 
           echo "Pulling latest changes from main branch..."
           git fetch --all
