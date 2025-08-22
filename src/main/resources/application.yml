@@ -13,6 +13,8 @@ spring:
             port: ${REDIS_PORT:6379}
             password: ${REDIS_PASSWORD:}
             database: ${REDIS_DB:0}
+            ssl:
+                enabled: true
     jackson:
         time-zone: Asia/Seoul
         serialization:
