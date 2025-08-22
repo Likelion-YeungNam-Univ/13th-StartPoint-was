@@ -37,7 +37,7 @@ public class ChatRedisRepository {
             String json = om.writeValueAsString(payload);
             redis.opsForList().rightPush(keyList(contextId), json);
             redis.opsForSet().add(keyUserCtx(userId), contextId);
-            redis.expire(keyList(contextId), Duration.ofDays(2));
+            redis.expire(keyList(contextId), Duration.ofHours(3));
         } catch (Exception e) {
             e.printStackTrace();
         }
