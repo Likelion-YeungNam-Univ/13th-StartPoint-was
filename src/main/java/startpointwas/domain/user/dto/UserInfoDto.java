@@ -1,6 +1,10 @@
 package startpointwas.domain.user.dto;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import startpointwas.domain.user.entity.Role;
 import startpointwas.domain.user.entity.User;
 

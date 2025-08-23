@@ -1,6 +1,11 @@
 package startpointwas.domain.user.dto;
 
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Builder;
 import startpointwas.domain.user.entity.User;
 import startpointwas.domain.user.entity.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
