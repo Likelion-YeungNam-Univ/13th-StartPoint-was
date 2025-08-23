@@ -1,13 +1,16 @@
 package startpointwas.domain.user.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import startpointwas.domain.user.entity.Role;
 import startpointwas.domain.user.entity.User;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserInfoDto {
     private String name;
     private String userId;
@@ -16,18 +19,6 @@ public class UserInfoDto {
     private Role role;
     private String phone;
     private String password;
-
-    @Builder
-    public UserInfoDto(String name, String userId, LocalDate birth,
-                       String email, Role role, String phone, String password) {
-        this.name = name;
-        this.userId = userId;
-        this.password = password;
-        this.birth = birth;
-        this.email = email;
-        this.phone = phone;
-        this.role = role;
-    }
 
     public static UserInfoDto fromEntity(User user) {
         return UserInfoDto.builder()

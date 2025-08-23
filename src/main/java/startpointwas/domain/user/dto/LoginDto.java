@@ -1,9 +1,13 @@
 package startpointwas.domain.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class LoginDto {
     @NotBlank
     private String userId;
