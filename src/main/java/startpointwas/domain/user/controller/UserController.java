@@ -49,13 +49,14 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> me(HttpSession session) {
+    public ResponseEntity<Object> me(HttpSession session) {
         String uid = (String) session.getAttribute(SessionConst.LOGIN_USER_UID);
         if (uid == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
         return ResponseEntity.ok(userService.getUserInfoByUserId(uid));
     }
+
 
     @PatchMapping("/me")
     public ResponseEntity<Void> updateMyInfoPartial(HttpSession session,
