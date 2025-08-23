@@ -5,8 +5,6 @@ import startpointwas.domain.practical.dto.PracticalDongAnlsSlim;
 
 public final class PracticalMapper {
 
-    private PracticalMapper() {}
-
     public static PracticalDongAnlsSlim toSlim(PracticalDongAnls src) {
         var pop = src.getFootTrafficDto().getPopulation();
         var sim = src.getSimpleAnlsDto();
