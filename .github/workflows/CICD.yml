@@ -2,9 +2,7 @@ name: Java CICD with Gradle
 
 on:
   push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
+    branches: [ "develop", "main" ]
   workflow_dispatch:
 
 jobs:
