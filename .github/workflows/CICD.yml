@@ -5,7 +5,6 @@ on:
     branches: [ "develop" ]
   pull_request:
     branches: [ "develop" ]
-  workflow_dispatch:
 
 jobs:
   build:
@@ -69,20 +68,20 @@ jobs:
 
           echo "Setting environment variables..."
           cat > .env <<EOL
-          DATABASE_HOST=${{ secrets.DATABASE_HOST }}
-          DATABASE_PORT=${{ secrets.DATABASE_PORT }}
-          DATABASE_NAME=${{ secrets.DATABASE_NAME }}
-          DATABASE_USER=${{ secrets.DATABASE_USER }}
-          DATABASE_PASS=${{ secrets.DATABASE_PASS }}
-    
-          REDIS_HOST=${{ secrets.REDIS_HOST }}
-          REDIS_PORT=${{ secrets.REDIS_PORT }}
-          REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
-          REDIS_DB=${{ secrets.REDIS_DB }}
-
-          OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
-
-          DOCKER_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }}
+          DATABASE_HOST=${{secrets.DATABASE_HOST}}
+          DATABASE_PORT=${{secrets.DATABASE_PORT}}
+          DATABASE_NAME=${{secrets.DATABASE_NAME}}
+          DATABASE_USER=${{secrets.DATABASE_USER}}
+          DATABASE_PASS=${{secrets.DATABASE_PASS}}
+            
+          REDIS_HOST=${{secrets.REDIS_HOST}}
+          REDIS_PORT=${{secrets.REDIS_PORT}}
+          REDIS_PASSWORD=${{secrets.REDIS_PASSWORD}}
+          REDIS_DB=${{secrets.REDIS_DB}}
+            
+          OPENAI_API_KEY=${{secrets.OPENAI_API_KEY}}
+            
+          DOCKER_IMAGE=${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPOSITORY}}:${{github.sha}}
           EOL
   
           echo "Stopping spring-boot-app container..."
