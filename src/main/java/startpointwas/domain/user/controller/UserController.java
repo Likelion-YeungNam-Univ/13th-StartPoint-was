@@ -48,19 +48,15 @@ public class UserController {
         return ResponseEntity.ok("로그아웃에 성공하셨습니다.");
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserInfoDto> getUser(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUser(id));
-    }
-
     @GetMapping("/me")
-    public ResponseEntity<?> me(HttpSession session) {
+    public ResponseEntity<Object> me(HttpSession session) {
         String uid = (String) session.getAttribute(SessionConst.LOGIN_USER_UID);
         if (uid == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
         return ResponseEntity.ok(userService.getUserInfoByUserId(uid));
     }
+
 
     @PatchMapping("/me")
     public ResponseEntity<Void> updateMyInfoPartial(HttpSession session,

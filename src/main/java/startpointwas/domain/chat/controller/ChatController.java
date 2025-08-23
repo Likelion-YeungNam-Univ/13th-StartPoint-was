@@ -8,7 +8,12 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import startpointwas.domain.chat.dto.ChatRequest;
 import startpointwas.domain.chat.exception.OpenAiApiException;
 import startpointwas.domain.chat.service.ChatContextService;
@@ -20,16 +25,13 @@ import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class ChatController {
 
     private final OpenAiChatModel openAiChatModel;
     private final ChatContextService contextSvc;
     private static final int MAX_PAIRS = 100;
 
-    /**
-     * 세션에서 userId 추출
-     * 로그인 안 했으면 "NULLUSER" 리턴
-     */
     private String resolveUserId(HttpSession session) {
         if (session == null) return "NULLUSER";
         Object uid = session.getAttribute(SessionConst.LOGIN_USER_UID);
@@ -39,15 +41,12 @@ public class ChatController {
         return uid.toString();
     }
 
-    /**
-     * 질문 요청 + 이전 대화 기록 포함 (Redis 기반)
-     */
     @PostMapping("/ask")
     public Map<String, Object> askWithAllHistory(@RequestBody ChatRequest request,
                                                  HttpSession session) {
         Map<String, Object> res = new LinkedHashMap<>();
         try {
-            String userId = resolveUserId(session); // ✅ 로그인 여부 확인
+            String userId = resolveUserId(session);
 
             String userMsg = Optional.ofNullable(request.getMessage()).orElse("");
             if (userMsg.isBlank()) return Map.of("error", "EMPTY_MESSAGE");
@@ -80,9 +79,7 @@ public class ChatController {
         return res;
     }
 
-    /**
-     * 사용자 채팅 기록 전체 조회 (Redis 기반)
-     */
+
     @GetMapping(path = "/ask", params = "userId", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> getUserChatHistory(
             @RequestParam(value = "userId", required = false) String userId,

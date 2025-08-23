@@ -1,13 +1,22 @@
 package startpointwas.domain.user.dto;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Builder;
 import startpointwas.domain.user.entity.User;
 import startpointwas.domain.user.entity.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Schema(description = "회원가입 요청 API")
 public class SignUpReq {
 

@@ -25,13 +25,6 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserInfoDto getUser(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
-        return UserInfoDto.fromEntity(user);
-    }
-
-    @Transactional(readOnly = true)
     public User login(String userId, String rawPassword) {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(RuntimeException::new);
