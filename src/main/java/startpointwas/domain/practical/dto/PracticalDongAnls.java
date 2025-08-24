@@ -1,6 +1,5 @@
 package startpointwas.domain.practical.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import startpointwas.domain.general.dto.FootTrafficDto;
 import startpointwas.domain.general.dto.SimpleAnlsResponse;

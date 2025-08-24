@@ -53,14 +53,12 @@ public class PracticalService {
         FootTrafficDto foot = footTrafficService.fetchFootTrafficInfo(analyNoDefault, admiCd, upjongCd);
         SimpleAnlsResponse simple = simpleAnlsService.fetchAvgAmtInfo(admiCd, upjongCd, simpleLoc);
 
-        PracticalDongAnls built = PracticalDongAnls.builder()
+        return PracticalDongAnls.builder()
                 .admiCd(admiCd)
                 .upjongCd(upjongCd)
                 .footTrafficDto(foot)
                 .simpleAnlsDto(simple)
                 .build();
-
-        return built;
     }
 
     public void ensureValidAdmiCd(String admiCd) {

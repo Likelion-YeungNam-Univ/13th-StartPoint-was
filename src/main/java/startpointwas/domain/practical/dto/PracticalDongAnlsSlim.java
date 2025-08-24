@@ -14,7 +14,6 @@ public class PracticalDongAnlsSlim {
     private Integer saleAmt;
     private Integer saleCnt;
     private Double prevYearRate;
-    private Integer storeCntAdminNow;
 
 }
 
