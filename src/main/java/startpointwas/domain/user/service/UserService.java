@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import startpointwas.domain.user.dto.SignUpReq;
 import startpointwas.domain.user.dto.UserInfoDto;
+import startpointwas.domain.user.dto.UserUpdateReq;
 import startpointwas.domain.user.entity.User;
 import startpointwas.domain.user.repository.UserRepository;
 
@@ -53,11 +54,10 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUserPartialByUserId(String uid, UserInfoDto dto) {
+    public User updateUserPartialByUserId(String uid, UserUpdateReq dto) {
         User user = userRepository.findByUserId(uid)
                 .orElseThrow(RuntimeException::new);
 
-        if (dto.getUserId() != null && !dto.getUserId().isBlank()) user.setUserId(dto.getUserId());
         if (dto.getName() != null) user.setName(dto.getName());
         if (dto.getBirth() != null) user.setBirth(dto.getBirth());
         if (dto.getEmail() != null) user.setEmail(dto.getEmail());

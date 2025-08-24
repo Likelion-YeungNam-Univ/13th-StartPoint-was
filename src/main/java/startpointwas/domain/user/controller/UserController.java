@@ -8,11 +8,19 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import startpointwas.domain.user.dto.LoginDto;
+
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import startpointwas.domain.user.dto.NameRoleRes;
 import startpointwas.domain.user.dto.SignUpReq;
 import startpointwas.domain.user.dto.UserInfoDto;
+import startpointwas.domain.user.dto.LoginDto;
+import startpointwas.domain.user.dto.UserUpdateReq;
 import startpointwas.domain.user.entity.User;
 import startpointwas.domain.user.service.UserService;
 import startpointwas.global.SessionConst;
@@ -30,6 +38,20 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(NameRoleRes.from(saved));
+    }
+
+    @PatchMapping("/me")
+    public ResponseEntity<UserInfoDto> updateMyInfoPartial(HttpSession session,
+                                                           @Valid @RequestBody UserUpdateReq dto) {
+        String uid = (String) session.getAttribute(SessionConst.LOGIN_USER_UID);
+        if (uid == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        User updated = userService.updateUserPartialByUserId(uid, dto);
+        session.setAttribute(SessionConst.LOGIN_USER_UID, updated.getUserId());
+
+        return ResponseEntity.ok(UserInfoDto.fromEntity(updated));
     }
 
     @PostMapping("/login")
@@ -58,17 +80,6 @@ public class UserController {
     }
 
 
-    @PatchMapping("/me")
-    public ResponseEntity<Void> updateMyInfoPartial(HttpSession session,
-                                                    @RequestBody UserInfoDto dto) {
-        String uid = (String) session.getAttribute(SessionConst.LOGIN_USER_UID);
-        if (uid == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        var updated = userService.updateUserPartialByUserId(uid, dto);
-        session.setAttribute(SessionConst.LOGIN_USER_UID, updated.getUserId());
-        return ResponseEntity.noContent().build();
-    }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntime(RuntimeException e) {
