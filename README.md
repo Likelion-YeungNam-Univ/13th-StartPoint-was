@@ -7,7 +7,8 @@
 | [차민경](https://github.com/chamingyeong00) | [손재희](https://github.com/JHEEE116) | [홍진성](https://github.com/gyeongsangseaman) | [김민정](https://github.com/minjeong517) |[강민혁](https://github.com/martinkang1234) |[조하영](https://github.com/haycho33) |
 | <img src="https://avatars.githubusercontent.com/u/165614132?v=4" alt="차민경" width="130"> | <img src="https://avatars.githubusercontent.com/u/204812665?v=4" alt="손재희" width="130"> | <img src="https://avatars.githubusercontent.com/u/194925284?v=4" alt="홍진성" width="130"> | <img src="https://avatars.githubusercontent.com/u/120231104?v=4" alt="김민정" width="130"> |<img src="https://avatars.githubusercontent.com/u/205292832?v=4" alt="강민혁" width="130"> |<img src="https://avatars.githubusercontent.com/u/204812467?v=4" alt="조하영" width="130"> |<
 
-## Start Pointer - BE
+## Start Pointer 
+<img width="1159" height="650" alt="Image" src="https://github.com/user-attachments/assets/8c1cfaa0-d969-4b0c-a6dc-8b7388bc47b8" />
 
 ## 기능
 
