@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class UpjongService {
-    public List<UpjongDto> fetchUpjongList() {
+    public static List<UpjongDto> fetchUpjongList() {
         RestClient restClient = RestClient.create();
         List<UpjongDto> list = restClient.get()
                 .uri("https://bigdata.sbiz.or.kr/gis/api/getHierarchyTpbizCode")
