@@ -23,7 +23,7 @@ SPO(Start Pointer) 는 국내 최초로 경산 지역 청년 창업자를 위한
 <img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/0284a1f0-d42a-4df6-8b9a-58158d203b2c" />
 
 ## 🗣️ 챗봇 및 FAQ
-<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/9efaa417-0827-45ea-b2a0-44cf8172c9ab" />
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/3612c709-e9da-4d96-9a98-a8b5f33a9343" />
 
 ## 👥 멘토매칭
 <img width="1920" height="1862" alt="Image" src="https://github.com/user-attachments/assets/df03c5d6-f146-41be-8d70-cd342b7c994c" />
