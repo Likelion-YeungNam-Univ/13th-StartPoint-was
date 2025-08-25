@@ -27,7 +27,7 @@ public class EntrepreneurViewController {
     public ResponseEntity<List<EntrepreneurViewDto>> getAll() {
         List<EntrepreneurViewDto> dtos = repository.findAll().stream()
                 .map(e -> new EntrepreneurViewDto(
-                        e.getId(), e.getName(), e.getStoreName(), e.getCategory(), e.getArea(),
+                        e.getId(), e.getName(), e.getStoreName(), e.getLargeCategory(), e.getArea(),
                         e.getBio(), e.getLikeCount(), e.getHeadline(), e.getIntro(),
                         e.getRegisteredDate(), e.getRegisteredTime(), e.getKeywords(), e.getTopics()
                 ))
@@ -39,7 +39,7 @@ public class EntrepreneurViewController {
     public ResponseEntity<EntrepreneurViewDto> getById(@PathVariable Long id) {
         return repository.findById(id)
                 .map(e -> new EntrepreneurViewDto(
-                        e.getId(), e.getName(), e.getStoreName(), e.getCategory(), e.getArea(),
+                        e.getId(), e.getName(), e.getStoreName(), e.getLargeCategory(), e.getArea(),
                         e.getBio(), e.getLikeCount(), e.getHeadline(), e.getIntro(),
                         e.getRegisteredDate(), e.getRegisteredTime(), e.getKeywords(), e.getTopics()
                 ))
@@ -65,7 +65,7 @@ public class EntrepreneurViewController {
                     return ResponseEntity.ok(
                             new EntrepreneurViewDto(
                                     e.getId(), e.getName(), e.getStoreName(),
-                                    e.getCategory(), e.getArea(), e.getBio(),
+                                    e.getLargeCategory(), e.getArea(), e.getBio(),
                                     e.getLikeCount(), e.getHeadline(), e.getIntro(),
                                     e.getRegisteredDate(), e.getRegisteredTime(),
                                     e.getKeywords(), e.getTopics()

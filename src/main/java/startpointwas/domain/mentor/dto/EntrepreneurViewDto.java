@@ -9,7 +9,7 @@ public record EntrepreneurViewDto(
         Long id,
         String name,
         String storeName,
-        String category,
+        String largeCategory,
         String area,
         String bio,
         int likeCount,
@@ -17,6 +17,6 @@ public record EntrepreneurViewDto(
         String intro,
         LocalDate registeredDate,
         LocalTime registeredTime,
-        List<String> keywords,
+        String keywords,
         List<String> topics
 ) {}

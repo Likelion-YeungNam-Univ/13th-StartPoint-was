@@ -35,7 +35,7 @@ public class Entrepreneur {
 
     private String storeName;
 
-    private String category;
+    private String largeCategory;
 
     private String area;
 
@@ -53,10 +53,7 @@ public class Entrepreneur {
 
     private LocalTime registeredTime;
 
-    @ElementCollection
-    @CollectionTable(name = "entrepreneur_keywords", joinColumns = @JoinColumn(name = "entrepreneur_id"))
-    @Column(name = "keyword")
-    private List<String> keywords;
+    private String keywords;
 
     @ElementCollection
     @CollectionTable(name = "entrepreneur_topics", joinColumns = @JoinColumn(name = "entrepreneur_id"))
